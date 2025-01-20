@@ -5,8 +5,11 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = main.c\
+	   init.c\
+	   lock_unlock.c\
 		libft/ft_atoi.c\
 		libft/ft_strlen.c\
+		libft/ft_putstr_fd.c\
 
 OBJS = $(SRCS:.c=.o)
 
