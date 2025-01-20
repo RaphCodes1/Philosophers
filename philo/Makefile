@@ -7,6 +7,8 @@ RM = rm -f
 SRCS = main.c\
 	   init.c\
 	   lock_unlock.c\
+	   utils.c\
+	   mutex_and_thread.c\
 		libft/ft_atoi.c\
 		libft/ft_strlen.c\
 		libft/ft_putstr_fd.c\

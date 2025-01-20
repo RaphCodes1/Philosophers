@@ -1,70 +1,67 @@
 #include "Philosophers.h"
 
-void philo_struct_int(t_philo **philo, t_program *program, 
-	pthread_mutex_t *forks, char **av)
+void assign_forks(t_philo *philo, t_fork *forks, int curr_pos)
 {	
-	int num_of_philo;
-	int i;
+	int philo_nbr;
 
-	i = -1;
-	num_of_philo = ft_atoi(av[1]);
-	(*philo) = safe_malloc(num_of_philo * sizeof(t_philo));
-	while(++i < num_of_philo)
+	philo_nbr = philo->program->num_of_philos;
+
+	//even or odd fork assignment to prevent DEADLOCK
+	philo[curr_pos].r_fork = &forks[(curr_pos + 1) % philo_nbr];
+	philo[curr_pos].l_fork = &forks[curr_pos];
+	if(philo->id % 2 == 0)
 	{
-		(*philo)[i].id = i + 1;
-		(*philo)[i].eating = 0;
-		(*philo)[i].meals_eaten = 0;
-		int_argv_content(&(*philo)[i],av);
-		(*philo)[i].start_time = 0; // get_curr_time();
-		(*philo)[i].last_meal = 0; // get_curr_time();
-		(*philo)[i].write_lock = &program->write_lock;
-		(*philo)[i].dead_lock = &program->dead_lock;
-		(*philo)[i].meal_lock = &program->meal_lock;
-		(*philo)[i].table_mtx = &program->table_mtx;
-		(*philo)[i].dead = &program->dead_flag;
-		(*philo)[i].l_fork = &forks[i];
-		if(i == 0)
-			(*philo)[i].r_fork = &forks[(*philo)->num_of_philos - 1];
-		else
-			(*philo)[i].r_fork = &forks[i - 1];
+		philo[curr_pos].r_fork = &forks[curr_pos];
+		philo[curr_pos].l_fork = &forks[(curr_pos + 1) % philo_nbr];
 	}
 }
-
-void program_init(t_program *program, t_philo *philos)
-{	
-	// program = safe_malloc(sizeof(t_program));
-	program->dead_flag = 0;
-	program->sync_philos = 0;
-	program->start_sim = 0;
-	program->end_sim = 0;
-	program->philos = philos;
-	mutex_handle(&program->dead_lock, INIT);
-	mutex_handle(&program->meal_lock, INIT);
-	mutex_handle(&program->write_lock, INIT);
-	mutex_handle(&program->table_mtx, INIT);
-}
-
-void forks_init(pthread_mutex_t **forks, int num_of_philos)
+void philo_init(t_prog *prog)
 {
 	int i;
+	t_philo *philo;
 
-	i = 0;
-	(*forks) = safe_malloc(num_of_philos * sizeof(pthread_mutex_t));
-	while(i < num_of_philos)
+	i = -1;
+	philo = prog->philos;
+	while(++i < prog->num_of_philos)
 	{
-		mutex_handle(&(*forks)[i], INIT);
-		i++;
+		philo[i].id = i + 1;
+		philo[i].full = false;
+		philo[i].meal_count = 0;
+		philo[i].program = prog;
+		assign_forks(philo, prog->forks, i);
 	}
 }
-
-void int_argv_content(t_philo *philo, char **av)
+void data_init(t_prog *prog, char **av)
 {	
-	philo->num_of_philos = ft_atoi(av[1]);
-	philo->time_to_die = ft_atoi(av[2]);
-	philo->time_to_eat = ft_atoi(av[3]);
-	philo->time_to_sleep = ft_atoi(av[4]);
+	int i;
+	
+	i = -1;
+	prog->end_sim = false;
+	prog->threads_ready = false;
+	prog->philos = safe_malloc(sizeof(t_philo) * prog->num_of_philos);
+	mutex_handle(&prog->table_mutex, INIT);
+	prog->forks = safe_malloc(sizeof(t_philo) * prog->num_of_philos);
+	while(++i < prog->num_of_philos)
+	{
+		mutex_handle(&prog->forks[i].fork, INIT);
+		prog->forks[i].fork_id = i;
+	}
+	philo_init(prog);
+}
+
+void av_input(t_prog *prog, char **av)
+{	
+	//need to change to ATOL for larger number
+	prog->num_of_philos = ft_atoi(av[1]);
+	prog->time_to_die = ft_atoi(av[2]) * 1000; // * 1e3; equals 1000;
+	prog->time_to_eat = ft_atoi(av[3]) * 1000; // *1e3; 
+	prog->time_to_sleep = ft_atoi(av[4]) * 1000; // * 1e3;
+	if(prog->time_to_die < 6e4 ||
+		prog->time_to_eat < 6e4 ||
+			prog->time_to_sleep < 6e4)
+		exit_err("use more than 60ms\n");
 	if(av[5])
-		philo->num_times_to_eat = ft_atoi(av[5]);
+		prog->num_times_to_eat = ft_atoi(av[5]);
 	else
-		philo->num_times_to_eat = -1;
+		prog->num_times_to_eat = -1;
 }
