@@ -53,6 +53,8 @@ struct s_prog
 	bool			threads_ready; //sync philo
 	pthread_mutex_t table_mutex; //avoid races while reading from the program
 	pthread_mutex_t write_lock; // for the table dinner sim (eat, sleep, think)
+	pthread_mutex_t monitor;
+	long			threads_running_nbr;
 	t_fork			*forks;
 	t_philo			*philos;
 };
@@ -118,3 +120,11 @@ void prec_usleep(long usec, t_prog *prog);
 
 //write status
 void write_status(t_philo_stat status, t_philo *philo, bool debug);
+
+//sync
+void wait_threads(t_philo *philo);
+bool threads_run_check(pthread_mutex_t *mutex,long philo_num, long *threads);
+void increase_val(pthread_mutex_t *mutex, long *val);
+
+//monitor
+void monitor_dinner(void *data);

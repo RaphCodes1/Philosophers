@@ -5,6 +5,7 @@ void exit_err(char *s)
 	printf("%s\n",s);
 	exit(EXIT_FAILURE);
 }
+
 int check_valid_args(char **av)
 {
     int i;
@@ -27,13 +28,6 @@ int check_valid_args(char **av)
 		f++;
 	}
 	return (0);
-}
-
-void wait_threads(t_philo *philo)
-{
-	while(!get_bool(&philo->program->table_mutex, 
-		&philo->program->threads_ready))
-		;
 }
 
 void eat(t_philo *philo)
@@ -79,8 +73,8 @@ void *dinner_sim(void *data)
 
 	// //spinlock
 	wait_threads(philo);
-
-	//set last meal time
+	increase_val(&philo->program->table_mutex,
+		&philo->program->threads_running_nbr);
 	while(!sim_finished(philo->program))
 	{	
 		//if full
@@ -112,9 +106,11 @@ void creation_thread(t_prog *prog)
 		{
 			thread_handle(&prog->philos[i].thread_id, dinner_sim,
 				&prog->philos[i], CREATE);
-			// printf("philo id: %d\n",prog->philos[i].id);
 		}
 	}
+	//monitor area
+	thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
+
 	prog->start_sim = get_time(MILLISECOND);
 	set_bool(&prog->table_mutex, &prog->threads_ready, true);
 	i = -1;
@@ -123,8 +119,6 @@ void creation_thread(t_prog *prog)
 		thread_handle(&prog->philos[i].thread_id, NULL, NULL, JOIN);
 		prec_usleep(100, prog);
 	}
-
-
 }
 void *safe_malloc(int num_philo)
 {

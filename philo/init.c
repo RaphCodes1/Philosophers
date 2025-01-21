@@ -38,6 +38,7 @@ void data_init(t_prog *prog, char **av)
 	i = -1;
 	prog->end_sim = false;
 	prog->threads_ready = false;
+	prog->threads_running_nbr = 0;
 	prog->philos = safe_malloc(sizeof(t_philo) * prog->num_of_philos);
 	mutex_handle(&prog->table_mutex, INIT);
 	mutex_handle(&prog->write_lock, INIT);

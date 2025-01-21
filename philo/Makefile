@@ -9,6 +9,8 @@ SRCS = main.c\
 	   lock_unlock.c\
 	   utils.c\
 	   mutex_and_thread.c\
+	   monitor.c\
+	   sync.c\
 		libft/ft_atoi.c\
 		libft/ft_strlen.c\
 		libft/ft_putstr_fd.c\
