@@ -38,6 +38,7 @@ struct s_prog
 	bool			end_sim;
 	bool			threads_ready; //sync philo
 	pthread_mutex_t table_mutex; //avoid races while reading from the program
+	pthread_mutex_t write_lock; // for the table dinner sim (eat, sleep, think)
 	t_fork			*forks;
 	t_philo			*philos;
 };
@@ -85,7 +86,7 @@ int get_val(pthread_mutex_t *mutex, int *val);
 void set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
 int get_bool(pthread_mutex_t *mutex, bool *val);
 bool sim_finished(t_prog *prog);
-bool sim_finished(t_prog *prog);
 
-//time
+//time, prec_usleep
 long get_time(t_time t_code);
+long prec_usleep(long usec, t_prog *prog);

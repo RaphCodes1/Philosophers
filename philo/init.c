@@ -40,6 +40,7 @@ void data_init(t_prog *prog, char **av)
 	prog->threads_ready = false;
 	prog->philos = safe_malloc(sizeof(t_philo) * prog->num_of_philos);
 	mutex_handle(&prog->table_mutex, INIT);
+	mutex_handle(&prog->write_lock, INIT);
 	prog->forks = safe_malloc(sizeof(t_philo) * prog->num_of_philos);
 	while(++i < prog->num_of_philos)
 	{

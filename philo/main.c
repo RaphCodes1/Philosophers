@@ -43,6 +43,18 @@ void *dinner_sim(void *data)
 
 	// //spinlock
 	wait_threads(philo);
+
+	//set last meal time
+	while(!sim_finished(philo->program))
+	{	
+		//if full
+		if(philo->full)
+			break;
+		
+		//eating
+		//sleeping
+		//thinking
+	}
 	return (NULL);
 }
 
