@@ -101,7 +101,6 @@ void creation_thread(t_prog *prog)
 		{
 			thread_handle(&prog->philos[i].thread_id, dinner_sim,
 				&prog->philos[i], CREATE);
-			// printf("philo id: %d\n",prog->philos[i].id);
 		}
 	}
 	prog->start_sim = get_time(MILLISECOND);
@@ -109,8 +108,6 @@ void creation_thread(t_prog *prog)
 	i = -1;
 	while(++i < prog->num_of_philos)
 		thread_handle(&prog->philos[i].thread_id, NULL, NULL, JOIN);
-
-
 }
 void *safe_malloc(int num_philo)
 {

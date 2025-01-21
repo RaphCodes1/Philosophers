@@ -13,7 +13,7 @@ long get_time(t_time t_code)
     else if(t_code == MICROSECOND)
         return((tv.tv_sec * 1e6) + tv.tv_usec);
     else
-        exit_err("wrong input in gettime\n");
+        exit_err("wrong input in get_time\n");
     return(0);
 }
 
@@ -65,7 +65,7 @@ void write_status(t_philo_stat status, t_philo *philo, bool debug)
 {   
     long elapsed;
 
-    elapsed = get_time(MILLISECOND - philo->program->start_sim);
+    elapsed = get_time(MILLISECOND) - philo->program->start_sim;
 
     if(philo->full)
         return ;
