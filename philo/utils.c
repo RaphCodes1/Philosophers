@@ -17,7 +17,7 @@ long get_time(t_time t_code)
     return(0);
 }
 
-long prec_usleep(long usec, t_prog *prog)
+void prec_usleep(long usec, t_prog *prog)
 {
     long start;
     long elapsed;
@@ -33,7 +33,7 @@ long prec_usleep(long usec, t_prog *prog)
         if(rem > 1e3)
             usleep(rem / 2);
         else
-            while(gettime(MICROSECOND) - start < usec)
+            while(get_time(MICROSECOND) - start < usec)
                 ;
     }
 }

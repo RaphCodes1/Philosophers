@@ -29,6 +29,7 @@ void philo_init(t_prog *prog)
 		philo[i].meal_count = 0;
 		philo[i].program = prog;
 		assign_forks(philo, prog->forks, i);
+		mutex_handle(&philo[i].philo_mutex, INIT);
 	}
 }
 void data_init(t_prog *prog, char **av)
@@ -53,16 +54,16 @@ void data_init(t_prog *prog, char **av)
 void av_input(t_prog *prog, char **av)
 {	
 	//need to change to ATOL for larger number
-	prog->num_of_philos = ft_atoi(av[1]);
-	prog->time_to_die = ft_atoi(av[2]) * 1000; // * 1e3; equals 1000;
-	prog->time_to_eat = ft_atoi(av[3]) * 1000; // *1e3; 
-	prog->time_to_sleep = ft_atoi(av[4]) * 1000; // * 1e3;
+	prog->num_of_philos = ft_atol(av[1]);
+	prog->time_to_die = ft_atol(av[2]) * 1000; // * 1e3; equals 1000;
+	prog->time_to_eat = ft_atol(av[3]) * 1000; // *1e3; 
+	prog->time_to_sleep = ft_atol(av[4]) * 1000; // * 1e3;
 	if(prog->time_to_die < 6e4 ||
 		prog->time_to_eat < 6e4 ||
 			prog->time_to_sleep < 6e4)
 		exit_err("use more than 60ms\n");
 	if(av[5])
-		prog->num_times_to_eat = ft_atoi(av[5]);
+		prog->num_times_to_eat = ft_atol(av[5]);
 	else
 		prog->num_times_to_eat = -1;
 }

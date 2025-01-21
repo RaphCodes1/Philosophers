@@ -1,15 +1,15 @@
 #include "Philosophers.h"
 
-void set_val(pthread_mutex_t *mutex, int *dest, int value)
+void set_val(pthread_mutex_t *mutex, long *dest, int value)
 {
     mutex_handle(mutex, LOCK);
     *dest = value;
     mutex_handle(mutex, UNLOCK);
 }
 
-int get_val(pthread_mutex_t *mutex, int *val)
+int get_val(pthread_mutex_t *mutex, long *val)
 {   
-    int res;
+    long res;
 
     mutex_handle(mutex, LOCK);
     res = *val;

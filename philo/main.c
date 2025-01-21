@@ -35,6 +35,30 @@ void wait_threads(t_philo *philo)
 		&philo->program->threads_ready))
 		;
 }
+
+void eat(t_philo *philo)
+{	
+	//first fork
+	mutex_handle(&philo->r_fork->fork, LOCK);
+	write_status(TAKE_R_FORK, philo, DEBUG_MODE);
+	mutex_handle(&philo->l_fork->fork, LOCK);
+	write_status(TAKE_L_FORK, philo, DEBUG_MODE);
+	set_val(&philo->philo_mutex, &philo->last_meal_time, 
+		get_time(MILLISECOND));
+	write_status(EATING, philo, DEBUG_MODE);
+	prec_usleep(philo->program->time_to_eat, philo->program);
+	if(philo->program->num_times_to_eat > 0 &&
+		philo->meal_count == philo->program->num_times_to_eat)
+		set_bool(&philo->philo_mutex, &philo->full, true);
+	mutex_handle(&philo->r_fork->fork, UNLOCK);
+	mutex_handle(&philo->l_fork->fork, UNLOCK);
+}
+
+void think(t_philo *philo)
+{
+	write_status(THINKING, philo, DEBUG_MODE);
+}
+
 void *dinner_sim(void *data)
 {	
 	t_philo *philo;
@@ -52,10 +76,12 @@ void *dinner_sim(void *data)
 			break;
 		
 		//eating
+		eat(philo);
 		//sleeping
 		write_status(SLEEPING, philo, DEBUG_MODE);
 		prec_usleep(philo->program->time_to_sleep, philo->program);
 		//thinking
+		think(philo);
 	}
 	return (NULL);
 }
@@ -75,7 +101,7 @@ void creation_thread(t_prog *prog)
 		{
 			thread_handle(&prog->philos[i].thread_id, dinner_sim,
 				&prog->philos[i], CREATE);
-			printf("philo id: %d\n",prog->philos[i].id);
+			// printf("philo id: %d\n",prog->philos[i].id);
 		}
 	}
 	prog->start_sim = get_time(MILLISECOND);

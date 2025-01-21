@@ -38,6 +38,7 @@ typedef struct s_philo
 	t_fork *l_fork;
 	t_fork *r_fork;
 	t_prog *program;
+	pthread_mutex_t philo_mutex;
 }	t_philo;
 
 struct s_prog
@@ -88,6 +89,7 @@ typedef enum philo_stat
 int		ft_atoi(const char *nptr);
 size_t	ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);
+unsigned long long	ft_atol(char *s);
 
 void 	exit_err(char *s);
 
@@ -104,15 +106,15 @@ void thread_handle(pthread_t *thread, void *(*func)(void *),
 void *safe_malloc(int num_philo);
 
 //locks and unlocks
-void set_val(pthread_mutex_t *mutex, int *dest, int value);
-int get_val(pthread_mutex_t *mutex, int *val);
+void set_val(pthread_mutex_t *mutex, long *dest, int value);
+int get_val(pthread_mutex_t *mutex, long *val);
 void set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
 int get_bool(pthread_mutex_t *mutex, bool *val);
 bool sim_finished(t_prog *prog);
 
 //time, prec_usleep
 long get_time(t_time t_code);
-long prec_usleep(long usec, t_prog *prog);
+void prec_usleep(long usec, t_prog *prog);
 
 //write status
 void write_status(t_philo_stat status, t_philo *philo, bool debug);

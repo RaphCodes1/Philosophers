@@ -12,6 +12,7 @@ SRCS = main.c\
 		libft/ft_atoi.c\
 		libft/ft_strlen.c\
 		libft/ft_putstr_fd.c\
+		libft/ft_atol.c\
 
 OBJS = $(SRCS:.c=.o)
 
