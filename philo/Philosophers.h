@@ -7,6 +7,19 @@
 #include <errno.h>
 #include <stdbool.h>
 
+#define RESET       "\033[0m"  // Reset to default
+#define BLACK       "\033[30m"
+#define RED         "\033[31m"
+#define GREEN       "\033[32m"
+#define YELLOW      "\033[33m"
+#define BLUE        "\033[34m"
+#define MAGENTA     "\033[35m"
+#define CYAN        "\033[36m"
+#define WHITE       "\033[37m"
+
+/*write function macro*/
+#define DEBUG_MODE 0
+
 typedef struct s_prog t_prog;
 typedef struct s_fork
 {
@@ -61,6 +74,16 @@ typedef enum time_code
 	MICROSECOND,
 }	t_time;
 
+typedef enum philo_stat
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_R_FORK,
+	TAKE_L_FORK,
+	DIED,
+}	t_philo_stat;
+
 // helpers
 int		ft_atoi(const char *nptr);
 size_t	ft_strlen(const char *s);
@@ -90,3 +113,6 @@ bool sim_finished(t_prog *prog);
 //time, prec_usleep
 long get_time(t_time t_code);
 long prec_usleep(long usec, t_prog *prog);
+
+//write status
+void write_status(t_philo_stat status, t_philo *philo, bool debug);

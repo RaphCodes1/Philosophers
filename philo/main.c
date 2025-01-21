@@ -53,6 +53,8 @@ void *dinner_sim(void *data)
 		
 		//eating
 		//sleeping
+		write_status(SLEEPING, philo, DEBUG_MODE);
+		prec_usleep(philo->program->time_to_sleep, philo->program);
 		//thinking
 	}
 	return (NULL);

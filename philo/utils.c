@@ -37,3 +37,59 @@ long prec_usleep(long usec, t_prog *prog)
                 ;
     }
 }
+
+void write_stat_debug(t_philo_stat status, t_philo *philo, long elapsed)
+{   
+    printf("debug mode\n");
+    if((TAKE_R_FORK == status && !sim_finished(philo->program)))
+        printf(WHITE"%-6ld" RESET "%d has taken R fork\n", 
+            elapsed, philo->id);
+    else if((TAKE_L_FORK == status && !sim_finished(philo->program)))
+        printf(WHITE"%-6ld" RESET "%d has taken L fork\n", 
+            elapsed, philo->id);
+    else if(EATING == status && !sim_finished(philo->program))
+        printf(WHITE "%-6ld" RESET "%d is eating\n", 
+            elapsed, philo->id);
+    else if(SLEEPING == status && !sim_finished(philo->program))
+        printf(WHITE "%-6ld" RESET "%d is eating\n", 
+            elapsed, philo->id);
+    else if(THINKING == status && !sim_finished(philo->program))
+        printf(WHITE "%-6ld" RESET "%d is thinking\n", 
+            elapsed, philo->id);
+    else if(DIED == status && !sim_finished(philo->program))
+        printf(RED "%-6ld %d has died\n" RESET, 
+            elapsed, philo->id);
+}
+
+void write_status(t_philo_stat status, t_philo *philo, bool debug)
+{   
+    long elapsed;
+
+    elapsed = get_time(MILLISECOND - philo->program->start_sim);
+
+    if(philo->full)
+        return ;
+    mutex_handle(&philo->program->write_lock, LOCK);
+    if(debug)
+        write_stat_debug(status, philo, elapsed);
+    else
+    {
+        if((TAKE_R_FORK == status || TAKE_L_FORK == status) 
+                && !sim_finished(philo->program))
+            printf(WHITE"%-6ld" RESET "%d has taken a fork\n", 
+                elapsed, philo->id);
+        else if(EATING == status && !sim_finished(philo->program))
+            printf(WHITE "%-6ld" RESET "%d is eating\n", 
+                elapsed, philo->id);
+        else if(SLEEPING == status && !sim_finished(philo->program))
+            printf(WHITE "%-6ld" RESET "%d is eating\n", 
+                elapsed, philo->id);
+        else if(THINKING == status && !sim_finished(philo->program))
+            printf(WHITE "%-6ld" RESET "%d is thinking\n", 
+                elapsed, philo->id);
+        else if(DIED == status && !sim_finished(philo->program))
+            printf(RED "%-6ld %d has died\n" RESET, 
+                elapsed, philo->id);
+    }
+    mutex_handle(&philo->program->write_lock, UNLOCK);
+}
