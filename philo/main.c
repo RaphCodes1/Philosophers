@@ -38,11 +38,17 @@ void wait_threads(t_philo *philo)
 
 void eat(t_philo *philo)
 {	
-	//first fork
-	mutex_handle(&philo->r_fork->fork, LOCK);
-	write_status(TAKE_R_FORK, philo, DEBUG_MODE);
-	mutex_handle(&philo->l_fork->fork, LOCK);
-	write_status(TAKE_L_FORK, philo, DEBUG_MODE);
+	if (philo->id % 2 == 0) {
+        mutex_handle(&philo->r_fork->fork, LOCK);
+        write_status(TAKE_R_FORK, philo, DEBUG_MODE);
+        mutex_handle(&philo->l_fork->fork, LOCK);
+        write_status(TAKE_L_FORK, philo, DEBUG_MODE);
+    } else {
+        mutex_handle(&philo->l_fork->fork, LOCK);
+        write_status(TAKE_L_FORK, philo, DEBUG_MODE);
+        mutex_handle(&philo->r_fork->fork, LOCK);
+        write_status(TAKE_R_FORK, philo, DEBUG_MODE);
+    }
 	set_val(&philo->philo_mutex, &philo->last_meal_time, 
 		get_time(MILLISECOND));
 	write_status(EATING, philo, DEBUG_MODE);
@@ -57,6 +63,12 @@ void eat(t_philo *philo)
 void think(t_philo *philo)
 {
 	write_status(THINKING, philo, DEBUG_MODE);
+}
+
+void sleeping(t_philo *philo)
+{
+	write_status(SLEEPING, philo, DEBUG_MODE);
+	prec_usleep(philo->program->time_to_sleep, philo->program);
 }
 
 void *dinner_sim(void *data)
@@ -78,8 +90,7 @@ void *dinner_sim(void *data)
 		//eating
 		eat(philo);
 		//sleeping
-		write_status(SLEEPING, philo, DEBUG_MODE);
-		prec_usleep(philo->program->time_to_sleep, philo->program);
+		sleeping(philo);
 		//thinking
 		think(philo);
 	}
@@ -101,13 +112,19 @@ void creation_thread(t_prog *prog)
 		{
 			thread_handle(&prog->philos[i].thread_id, dinner_sim,
 				&prog->philos[i], CREATE);
+			// printf("philo id: %d\n",prog->philos[i].id);
 		}
 	}
 	prog->start_sim = get_time(MILLISECOND);
 	set_bool(&prog->table_mutex, &prog->threads_ready, true);
 	i = -1;
 	while(++i < prog->num_of_philos)
+	{
 		thread_handle(&prog->philos[i].thread_id, NULL, NULL, JOIN);
+		prec_usleep(100, prog);
+	}
+
+
 }
 void *safe_malloc(int num_philo)
 {

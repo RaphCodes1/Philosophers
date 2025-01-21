@@ -40,18 +40,17 @@ void prec_usleep(long usec, t_prog *prog)
 
 void write_stat_debug(t_philo_stat status, t_philo *philo, long elapsed)
 {   
-    printf("debug mode\n");
     if((TAKE_R_FORK == status && !sim_finished(philo->program)))
-        printf(WHITE"%-6ld" RESET "%d has taken R fork\n", 
-            elapsed, philo->id);
+        printf("%-6ld %d has taken R fork %d\n", 
+            elapsed, philo->id, philo->r_fork->fork_id);
     else if((TAKE_L_FORK == status && !sim_finished(philo->program)))
-        printf(WHITE"%-6ld" RESET "%d has taken L fork\n", 
-            elapsed, philo->id);
+        printf("%-6ld %d has taken L fork %d\n", 
+            elapsed, philo->id, philo->l_fork->fork_id);
     else if(EATING == status && !sim_finished(philo->program))
-        printf(WHITE "%-6ld" RESET "%d is eating\n", 
+        printf(BLUE "%-6ld %d is eating\n" RESET, 
             elapsed, philo->id);
     else if(SLEEPING == status && !sim_finished(philo->program))
-        printf(WHITE "%-6ld" RESET "%d is eating\n", 
+        printf(WHITE "%-6ld" RESET "%d is sleeping\n", 
             elapsed, philo->id);
     else if(THINKING == status && !sim_finished(philo->program))
         printf(WHITE "%-6ld" RESET "%d is thinking\n", 
