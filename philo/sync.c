@@ -23,4 +23,5 @@ bool threads_run_check(pthread_mutex_t *mutex,long philo_num, long *threads)
     if(*threads == philo_num)
         check = true;
     mutex_handle(mutex, UNLOCK);
+    return(check);
 }

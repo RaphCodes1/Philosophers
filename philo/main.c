@@ -80,12 +80,8 @@ void *dinner_sim(void *data)
 		//if full
 		if(philo->full)
 			break;
-		
-		//eating
 		eat(philo);
-		//sleeping
 		sleeping(philo);
-		//thinking
 		think(philo);
 	}
 	return (NULL);
@@ -109,7 +105,7 @@ void creation_thread(t_prog *prog)
 		}
 	}
 	//monitor area
-	thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
+	// thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
 
 	prog->start_sim = get_time(MILLISECOND);
 	set_bool(&prog->table_mutex, &prog->threads_ready, true);
@@ -139,19 +135,13 @@ int main(int ac, char **av)
 	t_philo 	*philos;
 	t_prog		program;
 
-    if(ac == 5 || ac == 6)
+    if((ac == 5 || ac == 6) && !check_valid_args(av))
     {	
-		if(!check_valid_args(av))
-		{	
-			av_input(&program, av);
-			data_init(&program, av);
-			creation_thread(&program);
-			//add cleanup function for the threads
-		}
-		else
-			printf("Invalid Args\n");
-		
+		av_input(&program, av);
+		data_init(&program, av);
+		creation_thread(&program);
+		//add cleanup function for the threads
     }
     else
-        printf("Invalid Args\n");
+        exit_err("Invalid Args");
 }
