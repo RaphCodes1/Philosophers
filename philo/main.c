@@ -110,9 +110,9 @@ void creation_thread(t_prog *prog)
 	int i;
 
 	i = -1;
-	if(prog->num_times_to_eat == 0)
+	if(prog->num_of_philos == 0)
 		return ;
-	else if(prog->num_times_to_eat == 1)
+	else if(prog->num_of_philos == 1)
 		thread_handle(&prog->philos[0].thread_id, one_philo,
 			&prog->philos[0], CREATE);
 	else

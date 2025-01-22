@@ -50,10 +50,10 @@ void write_stat_debug(t_philo_stat status, t_philo *philo, long elapsed)
         printf(BLUE "%-6ld %d is eating\n" RESET, 
             elapsed, philo->id);
     else if(SLEEPING == status && !sim_finished(philo->program))
-        printf(WHITE "%-6ld" RESET "%d is sleeping\n", 
+        printf("%-6ld %d is sleeping\n", 
             elapsed, philo->id);
     else if(THINKING == status && !sim_finished(philo->program))
-        printf(WHITE "%-6ld" RESET "%d is thinking\n", 
+        printf("%-6ld %d is thinking\n", 
             elapsed, philo->id);
     else if(DIED == status && !sim_finished(philo->program))
         printf(RED "%-6ld %d has died\n" RESET, 
