@@ -1,13 +1,13 @@
 #include "Philosophers.h"
 
-void set_val(pthread_mutex_t *mutex, long *dest, int value)
+void set_val(pthread_mutex_t *mutex, long *dest, long value)
 {
     mutex_handle(mutex, LOCK);
     *dest = value;
     mutex_handle(mutex, UNLOCK);
 }
 
-int get_val(pthread_mutex_t *mutex, long *val)
+long get_val(pthread_mutex_t *mutex, long *val)
 {   
     long res;
 
@@ -24,7 +24,7 @@ void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
     mutex_handle(mutex, UNLOCK);
 }
 
-int get_bool(pthread_mutex_t *mutex, bool *val)
+bool get_bool(pthread_mutex_t *mutex, bool *val)
 {   
     bool res;
 

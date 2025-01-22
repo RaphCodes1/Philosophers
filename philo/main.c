@@ -73,6 +73,10 @@ void *dinner_sim(void *data)
 
 	// //spinlock
 	wait_threads(philo);
+
+	set_val(&philo->philo_mutex, &philo->last_meal_time,
+		get_time(MILLISECOND));
+	
 	increase_val(&philo->program->table_mutex,
 		&philo->program->threads_running_nbr);
 	while(!sim_finished(philo->program))
@@ -86,7 +90,21 @@ void *dinner_sim(void *data)
 	}
 	return (NULL);
 }
+void *one_philo(void *data)
+{
+	t_philo *philo;
 
+	philo = (t_philo *)data;
+	wait_threads(philo);
+	set_val(&philo->philo_mutex, &philo->last_meal_time,
+		get_time(MILLISECOND));
+	increase_val(&philo->program->table_mutex,
+		&philo->program->threads_running_nbr);
+	write_status(TAKE_R_FORK, philo, DEBUG_MODE);
+	while(!sim_finished(philo->program))
+		usleep(200);
+	return (NULL);
+}
 void creation_thread(t_prog *prog)
 {	
 	int i;
@@ -95,7 +113,8 @@ void creation_thread(t_prog *prog)
 	if(prog->num_times_to_eat == 0)
 		return ;
 	else if(prog->num_times_to_eat == 1)
-		; // TODO 
+		thread_handle(&prog->philos[0].thread_id, one_philo,
+			&prog->philos[0], CREATE);
 	else
 	{
 		while(++i < prog->num_of_philos)
@@ -105,7 +124,7 @@ void creation_thread(t_prog *prog)
 		}
 	}
 	//monitor area
-	// thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
+	thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
 
 	prog->start_sim = get_time(MILLISECOND);
 	set_bool(&prog->table_mutex, &prog->threads_ready, true);

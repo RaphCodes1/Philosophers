@@ -53,7 +53,7 @@ struct s_prog
 	bool			threads_ready; //sync philo
 	pthread_mutex_t table_mutex; //avoid races while reading from the program
 	pthread_mutex_t write_lock; // for the table dinner sim (eat, sleep, think)
-	pthread_mutex_t monitor;
+	pthread_t 		monitor;
 	long			threads_running_nbr;
 	t_fork			*forks;
 	t_philo			*philos;
@@ -108,10 +108,10 @@ void thread_handle(pthread_t *thread, void *(*func)(void *),
 void *safe_malloc(int num_philo);
 
 //locks and unlocks
-void set_val(pthread_mutex_t *mutex, long *dest, int value);
-int get_val(pthread_mutex_t *mutex, long *val);
+void set_val(pthread_mutex_t *mutex, long *dest, long value);
+long get_val(pthread_mutex_t *mutex, long *val);
 void set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
-int get_bool(pthread_mutex_t *mutex, bool *val);
+bool get_bool(pthread_mutex_t *mutex, bool *val);
 bool sim_finished(t_prog *prog);
 
 //time, prec_usleep
@@ -127,4 +127,4 @@ bool threads_run_check(pthread_mutex_t *mutex,long philo_num, long *threads);
 void increase_val(pthread_mutex_t *mutex, long *val);
 
 //monitor
-void monitor_dinner(void *data);
+void *monitor_dinner(void *data);
