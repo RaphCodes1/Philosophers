@@ -4,9 +4,6 @@ bool philo_dead(t_philo *philo)
 {
     long elapsed;
     long time_to_die;
-
-    if(get_bool(&philo->philo_mutex, &philo->full))
-        return (false);
     
     elapsed = get_time(MILLISECOND) - get_val(&philo->philo_mutex, 
         &philo->last_meal_time);
@@ -14,6 +11,21 @@ bool philo_dead(t_philo *philo)
     if(elapsed > time_to_die)
         return (true);
     return(false);
+}
+
+bool all_philo_full(t_prog *prog)
+{
+    t_philo *philo;
+    int i;
+
+    i = -1;
+    philo = prog->philos;
+    while(++i < prog->num_of_philos)
+    {
+        if(!get_bool(&philo->philo_mutex, &philo->full))
+            return(false);     
+    }
+    return (true);
 }
 void *monitor_dinner(void *data)
 {
@@ -27,7 +39,9 @@ void *monitor_dinner(void *data)
     {   
         i = 0;
         while(i < prog->num_of_philos && !sim_finished(prog))
-        {
+        {   
+            if(all_philo_full(prog))
+                set_bool(&prog->table_mutex, &prog->end_sim, true);
             if(philo_dead(&prog->philos[i]))
             {
                 write_status(DIED, &prog->philos[i], DEBUG_MODE);

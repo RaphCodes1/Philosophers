@@ -128,3 +128,4 @@ void increase_val(pthread_mutex_t *mutex, long *val);
 
 //monitor
 void *monitor_dinner(void *data);
+bool all_philo_full(t_prog *prog);

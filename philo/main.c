@@ -32,6 +32,8 @@ int check_valid_args(char **av)
 
 void eat(t_philo *philo)
 {	
+	if(philo->full)
+		return;
 	if (philo->id % 2 == 0) {
         mutex_handle(&philo->r_fork->fork, LOCK);
         write_status(TAKE_R_FORK, philo, DEBUG_MODE);
@@ -45,7 +47,9 @@ void eat(t_philo *philo)
     }
 	set_val(&philo->philo_mutex, &philo->last_meal_time, 
 		get_time(MILLISECOND));
+	philo->meal_count++;
 	write_status(EATING, philo, DEBUG_MODE);
+	// printf(YELLOW "philo id: %d meal count: %ld\n" RESET,philo->id,philo->meal_count);
 	prec_usleep(philo->program->time_to_eat, philo->program);
 	if(philo->program->num_times_to_eat > 0 &&
 		philo->meal_count == philo->program->num_times_to_eat)
@@ -76,7 +80,6 @@ void *dinner_sim(void *data)
 
 	set_val(&philo->philo_mutex, &philo->last_meal_time,
 		get_time(MILLISECOND));
-	
 	increase_val(&philo->program->table_mutex,
 		&philo->program->threads_running_nbr);
 	while(!sim_finished(philo->program))
