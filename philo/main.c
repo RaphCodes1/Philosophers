@@ -137,6 +137,8 @@ void creation_thread(t_prog *prog)
 		thread_handle(&prog->philos[i].thread_id, NULL, NULL, JOIN);
 		prec_usleep(100, prog);
 	}
+	set_bool(&prog->table_mutex, &prog->end_sim, true);
+	thread_handle(&prog->monitor, NULL, NULL, JOIN);
 }
 void *safe_malloc(int num_philo)
 {
