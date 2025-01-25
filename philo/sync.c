@@ -25,3 +25,17 @@ bool threads_run_check(pthread_mutex_t *mutex,long philo_num, long *threads)
     mutex_handle(mutex, UNLOCK);
     return(check);
 }
+
+void desync_philo(t_philo *philo)
+{
+    if(philo->program->num_of_philos % 2 == 0)
+    {
+        if(philo->id % 2 == 0)
+            prec_usleep(3e4, philo->program);
+    }
+    else
+    {
+        if(philo->id)
+            think(philo, true);
+    }
+}

@@ -58,9 +58,14 @@ void eat(t_philo *philo)
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
 }
 
-void think(t_philo *philo)
-{
-	write_status(THINKING, philo, DEBUG_MODE);
+void think(t_philo *philo, bool pre_sim)
+{	
+	if(!pre_sim)	
+		write_status(THINKING, philo, DEBUG_MODE);
+	if(philo->program->num_of_philos % 2 == 0)
+		return ;
+	else
+		prec_usleep(2000, philo->program);
 }
 
 void sleeping(t_philo *philo)
@@ -82,6 +87,7 @@ void *dinner_sim(void *data)
 		get_time(MILLISECOND));
 	increase_val(&philo->program->table_mutex,
 		&philo->program->threads_running_nbr);
+	desync_philo(philo);
 	while(!sim_finished(philo->program))
 	{	
 		//if full
@@ -89,7 +95,7 @@ void *dinner_sim(void *data)
 			break;
 		eat(philo);
 		sleeping(philo);
-		think(philo);
+		think(philo, false);
 	}
 	return (NULL);
 }
@@ -128,7 +134,6 @@ void creation_thread(t_prog *prog)
 	}
 	//monitor area
 	thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
-
 	prog->start_sim = get_time(MILLISECOND);
 	set_bool(&prog->table_mutex, &prog->threads_ready, true);
 	i = -1;

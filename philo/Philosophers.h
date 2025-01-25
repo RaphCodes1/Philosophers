@@ -125,6 +125,10 @@ void write_status(t_philo_stat status, t_philo *philo, bool debug);
 void wait_threads(t_philo *philo);
 bool threads_run_check(pthread_mutex_t *mutex,long philo_num, long *threads);
 void increase_val(pthread_mutex_t *mutex, long *val);
+void desync_philo(t_philo *philo);
+
+//philo status
+void think(t_philo *philo, bool pre_sim);
 
 //monitor
 void *monitor_dinner(void *data);
