@@ -51,9 +51,9 @@ void data_init(t_prog *prog, char **av)
 	philo_init(prog);
 }
 
-void av_input(t_prog *prog, char **av)
+int av_input(t_prog *prog, char **av)
 {	
-	//need to change to ATOL for larger number
+	//need to PROTECT from overflow INTMIN INTMAX LONGMAX LONGMIN
 	prog->num_of_philos = ft_atol(av[1]);
 	prog->time_to_die = ft_atol(av[2]) * 1000; // * 1e3; equals 1000;
 	prog->time_to_eat = ft_atol(av[3]) * 1000; // *1e3; 
@@ -61,9 +61,13 @@ void av_input(t_prog *prog, char **av)
 	if(prog->time_to_die < 6e4 ||
 		prog->time_to_eat < 6e4 ||
 			prog->time_to_sleep < 6e4)
-		exit_err("use more than 60ms\n");
+	{
+		printf("use more than 60ms\n");
+		return (0);
+	}
 	if(av[5])
 		prog->num_times_to_eat = ft_atol(av[5]);
 	else
 		prog->num_times_to_eat = -1;
+	return (1);
 }

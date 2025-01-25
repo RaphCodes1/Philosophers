@@ -1,11 +1,5 @@
 #include "Philosophers.h"
 
-void exit_err(char *s)
-{
-	printf("%s\n",s);
-	exit(EXIT_FAILURE);
-}
-
 int check_valid_args(char **av)
 {
     int i;
@@ -171,6 +165,7 @@ void clean(t_prog *prog)
 	free(prog->philos);
 	free(prog->forks);
 }
+
 int main(int ac, char **av)
 {   
 	t_philo 	*philos;
@@ -178,13 +173,13 @@ int main(int ac, char **av)
 
     if((ac == 5 || ac == 6) && !check_valid_args(av))
     {	
-		av_input(&program, av);
+		if(!av_input(&program, av))
+			return (0);
 		data_init(&program, av);
 		creation_thread(&program);
 		printf("go out\n");
 		clean(&program);
-		//add cleanup function for the threads
     }
     else
-        exit_err("Invalid Args");
+        printf("Invalid Args");
 }

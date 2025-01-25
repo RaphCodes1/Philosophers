@@ -93,13 +93,13 @@ size_t	ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);
 unsigned long long	ft_atol(char *s);
 
-void 	exit_err(char *s);
+// void 	exit_err(char *s);
 
 //init 
 void assign_forks(t_philo *philo, t_fork *forks, int curr_pos);
 void philo_init(t_prog *prog);
 void data_init(t_prog *prog, char **av);
-void av_input(t_prog *prog, char **av);
+int	 av_input(t_prog *prog, char **av);
 
 //handlers and mallocs
 void mutex_handle(pthread_mutex_t *mutex, t_operation opcode);
