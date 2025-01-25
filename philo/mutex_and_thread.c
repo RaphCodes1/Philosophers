@@ -68,8 +68,6 @@ void thread_handle(pthread_t *thread, void *(*func)(void *),
 		thread_err(pthread_create(thread, NULL, func, data), CREATE);
 	else if(opcode == JOIN)
 		thread_err(pthread_join(*thread, NULL), JOIN);
-	else if(opcode == DETATCH)
-		thread_err(pthread_detach(*thread), DETATCH);
 	else
 		printf("wrong opcode for pthread_handling\n");
 }

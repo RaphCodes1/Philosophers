@@ -159,6 +159,18 @@ void *safe_malloc(int num_philo)
 	return (res);
 }
 
+void clean(t_prog *prog)
+{
+	int i;
+
+	i = -1;
+	while(++i < prog->num_of_philos)
+		mutex_handle(&prog->philos[i].philo_mutex, DESTROY);
+	mutex_handle(&prog->write_lock, DESTROY);
+	mutex_handle(&prog->table_mutex, DESTROY);
+	free(prog->philos);
+	free(prog->forks);
+}
 int main(int ac, char **av)
 {   
 	t_philo 	*philos;
@@ -169,6 +181,8 @@ int main(int ac, char **av)
 		av_input(&program, av);
 		data_init(&program, av);
 		creation_thread(&program);
+		printf("go out\n");
+		clean(&program);
 		//add cleanup function for the threads
     }
     else
