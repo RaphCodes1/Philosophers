@@ -22,10 +22,10 @@ all:$(NAME)
 
 #$(CFLAGS)
 $(NAME): $(OBJS)
-	$(CC) $^ -o $@
+	$(CC) $^ -o $@ -pthread
 
 %.o:%.c
-	$(CC) -c $< -o $@
+	$(CC) -c $< -o $@ -pthread
 
 clean:
 	$(RM) $(OBJS)
