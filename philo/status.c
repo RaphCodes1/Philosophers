@@ -2,8 +2,6 @@
 
 void eat(t_philo *philo)
 {	
-	if(philo->full)
-		return;
 	if (philo->id % 2 == 0) {
         mutex_handle(&philo->r_fork->fork, LOCK);
         write_status(TAKE_R_FORK, philo, DEBUG_MODE);

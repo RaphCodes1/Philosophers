@@ -30,7 +30,7 @@ void philo_init(t_prog *prog)
 		mutex_handle(&philo[i].philo_mutex, INIT);
 	}
 }
-void data_init(t_prog *prog, char **av)
+int data_init(t_prog *prog, char **av)
 {	
 	int i;
 	
@@ -38,16 +38,17 @@ void data_init(t_prog *prog, char **av)
 	prog->end_sim = false;
 	prog->threads_ready = false;
 	prog->threads_running_nbr = 0;
-	prog->philos = safe_malloc(sizeof(t_philo) * prog->num_of_philos);
+	if(!malloc_check(prog))
+		return (0);
 	mutex_handle(&prog->table_mutex, INIT);
 	mutex_handle(&prog->write_lock, INIT);
-	prog->forks = safe_malloc(sizeof(t_philo) * prog->num_of_philos);
 	while(++i < prog->num_of_philos)
 	{
 		mutex_handle(&prog->forks[i].fork, INIT);
 		prog->forks[i].fork_id = i;
 	}
 	philo_init(prog);
+	return (1);
 }
 
 int valid_numbers(char **av)

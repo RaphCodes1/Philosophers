@@ -96,14 +96,14 @@ unsigned long long	ft_atol(char *s);
 //init 
 void assign_forks(t_philo *philo, t_fork *forks, int curr_pos);
 void philo_init(t_prog *prog);
-void data_init(t_prog *prog, char **av);
+int	 data_init(t_prog *prog, char **av);
 int	 av_input(t_prog *prog, char **av);
 
 //handlers and mallocs
 void mutex_handle(pthread_mutex_t *mutex, t_operation opcode);
 void thread_handle(pthread_t *thread, void *(*func)(void *), 
 	void *data, t_operation opcode);
-void *safe_malloc(int num_philo);
+int malloc_check(t_prog *prog);
 
 //locks and unlocks
 void set_val(pthread_mutex_t *mutex, long *dest, long value);

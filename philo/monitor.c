@@ -27,6 +27,7 @@ bool all_philo_full(t_prog *prog)
     }
     return (true);
 }
+
 void *monitor_dinner(void *data)
 {
     t_prog *prog;

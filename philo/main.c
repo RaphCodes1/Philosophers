@@ -51,17 +51,19 @@ void creation_thread(t_prog *prog)
 	set_bool(&prog->table_mutex, &prog->end_sim, true);
 	thread_handle(&prog->monitor, NULL, NULL, JOIN);
 }
-void *safe_malloc(int num_philo)
-{
-	void *res;
 
-	res = malloc(num_philo);
-	if(!res)
-	{
-		printf("malloc error!\n");
-		return (NULL);
+int malloc_check(t_prog *prog)
+{	
+	prog->philos = malloc(sizeof(t_philo) * prog->num_of_philos);
+	if(!prog->philos)
+		return (0);
+	prog->forks = malloc(sizeof(t_philo) * prog->num_of_philos);
+	if(!prog->forks)
+	{	
+		free(prog->philos);
+		return (0);
 	}
-	return (res);
+	return (1);
 }
 
 void clean(t_prog *prog)
@@ -85,8 +87,9 @@ int main(int ac, char **av)
     if((ac == 5 || ac == 6) && !check_valid_args(av))
     {	
 		if(!av_input(&program, av))
-			return (0);
-		data_init(&program, av);
+			return (1);
+		if(!data_init(&program, av))
+			return (1);
 		creation_thread(&program);
 		clean(&program);
     }
