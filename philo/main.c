@@ -91,5 +91,5 @@ int main(int ac, char **av)
 		clean(&program);
     }
     else
-        printf("Invalid Args");
+        printf(RED "Invalid Args\n" RESET);
 }

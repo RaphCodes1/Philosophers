@@ -18,7 +18,7 @@
 #define WHITE       "\033[37m"
 
 /*write function macro*/
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 typedef struct s_prog t_prog;
 typedef struct s_fork

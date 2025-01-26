@@ -50,23 +50,41 @@ void data_init(t_prog *prog, char **av)
 	philo_init(prog);
 }
 
+int valid_numbers(char **av)
+{
+	if(ft_atol(av[1]) > 200)
+	{
+		printf(RED "no more than 200 philos\n" RESET);
+		return (0);
+	}
+	if(ft_atol(av[2]) > INT_MAX || ft_atol(av[3]) > INT_MAX
+		|| ft_atol(av[4]) > INT_MAX)
+	{
+		printf(RED "error args\n" RESET);
+		return (0);
+	}
+	if(av[5])
+	{
+		if(ft_atol(av[5]) > INT_MAX)
+		{
+			printf(RED "error args\n" RESET);
+			return (0);
+		}
+	}
+	return (1);
+}
 int av_input(t_prog *prog, char **av)
 {	
-	//need to PROTECT from overflow INTMIN INTMAX LONGMAX LONGMIN
 	prog->num_of_philos = ft_atol(av[1]);
-	prog->time_to_die = ft_atol(av[2]) * 1000; // * 1e3; equals 1000;
-	prog->time_to_eat = ft_atol(av[3]) * 1000; // *1e3; 
-	prog->time_to_sleep = ft_atol(av[4]) * 1000; // * 1e3;
-	if(prog->time_to_die < 6e4 ||
-		prog->time_to_eat < 6e4 ||
+	prog->time_to_die = ft_atol(av[2]) * 1000; 
+	prog->time_to_eat = ft_atol(av[3]) * 1000; 
+	prog->time_to_sleep = ft_atol(av[4]) * 1000;
+	if(!valid_numbers(av))
+		return (0); 
+	if(prog->time_to_die < 6e4 || prog->time_to_eat < 6e4 ||
 			prog->time_to_sleep < 6e4)
 	{
 		printf(RED "use more than 60ms\n" RESET);
-		return (0);
-	}
-	if(prog->num_of_philos > 200)
-	{
-		printf(RED "no more than 200 philos\n" RESET);
 		return (0);
 	}
 	if(av[5])

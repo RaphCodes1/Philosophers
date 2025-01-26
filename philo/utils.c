@@ -78,16 +78,16 @@ void write_status(t_philo_stat status, t_philo *philo, bool debug)
             printf(WHITE"%-6ld" RESET "%d has taken a fork\n", 
                 elapsed, philo->id);
         else if(EATING == status && !sim_finished(philo->program))
-            printf(WHITE "%-6ld" RESET "%d is eating\n", 
+            printf(BLUE "%-6ld%d is eating\n" RESET, 
                 elapsed, philo->id);
         else if(SLEEPING == status && !sim_finished(philo->program))
-            printf(WHITE "%-6ld" RESET "%d is eating\n", 
+            printf(BLUE "%-6ld" RESET "%d is eating\n", 
                 elapsed, philo->id);
         else if(THINKING == status && !sim_finished(philo->program))
             printf(WHITE "%-6ld" RESET "%d is thinking\n", 
                 elapsed, philo->id);
         else if(DIED == status && !sim_finished(philo->program))
-            printf(RED "%-6ld %d has died\n" RESET, 
+            printf(RED "%-6ld%d has died\n" RESET, 
                 elapsed, philo->id);
     }
     mutex_handle(&philo->program->write_lock, UNLOCK);
