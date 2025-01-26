@@ -5,7 +5,6 @@ void assign_forks(t_philo *philo, t_fork *forks, int curr_pos)
 	int philo_nbr;
 
 	philo_nbr = philo->program->num_of_philos;
-	//even or odd fork assignment to prevent DEADLOCK
 	philo[curr_pos].r_fork = &forks[(curr_pos + 1) % philo_nbr];
 	philo[curr_pos].l_fork = &forks[curr_pos];
 	if(philo->id % 2 == 0)
@@ -62,7 +61,12 @@ int av_input(t_prog *prog, char **av)
 		prog->time_to_eat < 6e4 ||
 			prog->time_to_sleep < 6e4)
 	{
-		printf("use more than 60ms\n");
+		printf(RED "use more than 60ms\n" RESET);
+		return (0);
+	}
+	if(prog->num_of_philos > 200)
+	{
+		printf(RED "no more than 200 philos\n" RESET);
 		return (0);
 	}
 	if(av[5])

@@ -93,8 +93,6 @@ size_t	ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);
 unsigned long long	ft_atol(char *s);
 
-// void 	exit_err(char *s);
-
 //init 
 void assign_forks(t_philo *philo, t_fork *forks, int curr_pos);
 void philo_init(t_prog *prog);
@@ -129,6 +127,10 @@ void desync_philo(t_philo *philo);
 
 //philo status
 void think(t_philo *philo, bool pre_sim);
+void eat(t_philo *philo);
+void *one_philo(void *data);
+void *dinner_sim(void *data);
+void sleeping(t_philo *philo);
 
 //monitor
 void *monitor_dinner(void *data);

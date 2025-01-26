@@ -11,6 +11,7 @@ SRCS = main.c\
 	   mutex_and_thread.c\
 	   monitor.c\
 	   sync.c\
+	   status.c\
 		libft/ft_atoi.c\
 		libft/ft_strlen.c\
 		libft/ft_putstr_fd.c\
