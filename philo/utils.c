@@ -60,7 +60,7 @@ void write_stat_debug(t_philo_stat status, t_philo *philo, long elapsed)
             elapsed, philo->id);
 }
 
-void write_status(t_philo_stat status, t_philo *philo, bool debug)
+void write_status(t_philo_stat status, t_philo *philo)
 {   
     long elapsed;
 

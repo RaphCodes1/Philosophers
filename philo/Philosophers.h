@@ -7,7 +7,7 @@
 #include <errno.h>
 #include <stdbool.h>
 
-#define RESET       "\033[0m"  // Reset to default
+#define RESET       "\033[0m"
 #define BLACK       "\033[30m"
 #define RED         "\033[31m"
 #define GREEN       "\033[32m"
@@ -17,8 +17,8 @@
 #define CYAN        "\033[36m"
 #define WHITE       "\033[37m"
 
-/*write function macro*/
-#define DEBUG_MODE 0
+// /*write function macro*/
+// #define DEBUG_MODE 0
 
 typedef struct s_prog t_prog;
 typedef struct s_fork
@@ -117,7 +117,7 @@ long get_time(t_time t_code);
 void prec_usleep(long usec, t_prog *prog);
 
 //write status
-void write_status(t_philo_stat status, t_philo *philo, bool debug);
+void write_status(t_philo_stat status, t_philo *philo);
 
 //sync
 void wait_threads(t_philo *philo);

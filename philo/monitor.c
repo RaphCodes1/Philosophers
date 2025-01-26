@@ -45,7 +45,7 @@ void *monitor_dinner(void *data)
                 set_bool(&prog->table_mutex, &prog->end_sim, true);
             if(philo_dead(&prog->philos[i]))
             {
-                write_status(DIED, &prog->philos[i], DEBUG_MODE);
+                write_status(DIED, &prog->philos[i]);
                 set_bool(&prog->table_mutex, &prog->end_sim, true);
             }
             i++;
