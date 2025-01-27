@@ -29,15 +29,12 @@ void	eat(t_philo *philo)
 		write_status(TAKE_R_FORK, philo);
 	}
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
+	philo->meal_count++;
+	write_status(EATING, philo);
 	prec_usleep(philo->program->time_to_eat, philo->program);
 	if (philo->program->num_times_to_eat > 0
 		&& philo->meal_count == philo->program->num_times_to_eat)
 		set_bool(&philo->philo_mutex, &philo->full, true);
-	if (!get_bool(&philo->philo_mutex, &philo->full))
-	{
-		philo->meal_count++;
-		write_status(EATING, philo);
-	}
 	mutex_handle(&philo->r_fork->fork, UNLOCK);
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
 }

@@ -25,21 +25,6 @@ bool	philo_dead(t_philo *philo)
 	return (false);
 }
 
-bool	all_philo_full(t_prog *prog)
-{
-	t_philo	*philo;
-	int		i;
-
-	i = -1;
-	philo = prog->philos;
-	while (++i < prog->num_of_philos)
-	{
-		if (!get_bool(&philo->philo_mutex, &philo->full))
-			return (false);
-	}
-	return (true);
-}
-
 void	*monitor_dinner(void *data)
 {
 	t_prog	*prog;
@@ -54,8 +39,6 @@ void	*monitor_dinner(void *data)
 		i = 0;
 		while (i < prog->num_of_philos && !sim_finished(prog))
 		{
-			if (all_philo_full(prog))
-				set_bool(&prog->table_mutex, &prog->end_sim, true);
 			if (philo_dead(&prog->philos[i]))
 			{
 				write_status(DIED, &prog->philos[i]);
