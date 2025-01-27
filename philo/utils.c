@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:00:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/01/27 18:00:03 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:03:13 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ void	write_status(t_philo_stat status, t_philo *philo)
 	else if (THINKING == status && !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d is thinking\n", elapsed, philo->id);
 	else if (DIED == status && !sim_finished(philo->program))
-		printf(RED "%-6ld%d has died\n" RESET, elapsed, philo->id);
+		printf(RED "%-6ld%d died\n" RESET, elapsed, philo->id);
 	mutex_handle(&philo->program->write_lock, UNLOCK);
 }
