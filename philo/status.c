@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:46 by rcreer            #+#    #+#             */
-/*   Updated: 2025/01/27 17:59:57 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/27 19:17:11 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,16 @@ void	eat(t_philo *philo)
 		mutex_handle(&philo->r_fork->fork, LOCK);
 		write_status(TAKE_R_FORK, philo);
 	}
-	philo->meal_count++;
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	prec_usleep(philo->program->time_to_eat, philo->program);
 	if (philo->program->num_times_to_eat > 0
 		&& philo->meal_count == philo->program->num_times_to_eat)
 		set_bool(&philo->philo_mutex, &philo->full, true);
 	if (!get_bool(&philo->philo_mutex, &philo->full))
+	{
+		philo->meal_count++;
 		write_status(EATING, philo);
+	}
 	mutex_handle(&philo->r_fork->fork, UNLOCK);
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
 }
