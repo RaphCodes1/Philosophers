@@ -67,6 +67,7 @@ struct					s_prog
 	pthread_mutex_t		write_lock;
 	pthread_t			monitor;
 	long				threads_running_nbr;
+	int					*eat_stat;
 	t_fork				*forks;
 	t_philo				*philos;
 };

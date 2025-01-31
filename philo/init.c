@@ -43,17 +43,33 @@ void	philo_init(t_prog *prog)
 		mutex_handle(&philo[i].philo_mutex, INIT);
 	}
 }
+void eat_stat_init(t_prog *prog)
+{
+	int i;
+
+	i = -1;
+	while(++i < prog->num_of_philos)
+	{
+		if(i == 0 || i == prog->num_of_philos - 1)
+			prog->eat_stat[i] = prog->num_of_philos;
+		else if(i % 2 == 0)
+			prog->eat_stat[i] = i + 2;
+		else if(i % 2)
+			prog->eat_stat[i] = i + 1;
+	}
+	i = -1;
+}
 
 int	data_init(t_prog *prog, char **av)
 {
 	int	i;
 
 	i = -1;
+	if (!malloc_check(prog))
+		return (0);
 	prog->end_sim = false;
 	prog->threads_ready = false;
 	prog->threads_running_nbr = 0;
-	if (!malloc_check(prog))
-		return (0);
 	mutex_handle(&prog->table_mutex, INIT);
 	mutex_handle(&prog->write_lock, INIT);
 	while (++i < prog->num_of_philos)
@@ -61,6 +77,7 @@ int	data_init(t_prog *prog, char **av)
 		mutex_handle(&prog->forks[i].fork, INIT);
 		prog->forks[i].fork_id = i;
 	}
+	eat_stat_init(prog);
 	philo_init(prog);
 	return (1);
 }
