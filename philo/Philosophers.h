@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:43 by rcreer            #+#    #+#             */
-/*   Updated: 2025/01/27 17:59:44 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/03 16:09:01 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ struct					s_prog
 	bool				threads_ready;
 	pthread_mutex_t		table_mutex;
 	pthread_mutex_t		write_lock;
+	pthread_mutex_t		which_philo_eat_lock;
 	pthread_t			monitor;
 	long				threads_running_nbr;
 	int					*eat_stat;
@@ -148,6 +149,10 @@ void					eat(t_philo *philo);
 void					*one_philo(void *data);
 void					*dinner_sim(void *data);
 void					sleeping(t_philo *philo);
+void					set_eat_stat(t_philo *philo);
+int						which_philo_check(t_philo *philo);
+void					lock_forks(t_philo *philo);
+void					eat_stat_init(t_prog *prog);
 
 // monitor
 void					*monitor_dinner(void *data);

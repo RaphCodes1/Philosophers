@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:17 by rcreer            #+#    #+#             */
-/*   Updated: 2025/01/27 17:59:18 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/03 16:09:41 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,6 @@ void	philo_init(t_prog *prog)
 		mutex_handle(&philo[i].philo_mutex, INIT);
 	}
 }
-void eat_stat_init(t_prog *prog)
-{
-	int i;
-
-	i = -1;
-	while(++i < prog->num_of_philos)
-	{
-		if(i == 0 || i == prog->num_of_philos - 1)
-			prog->eat_stat[i] = prog->num_of_philos;
-		else if(i % 2 == 0)
-			prog->eat_stat[i] = i + 2;
-		else if(i % 2)
-			prog->eat_stat[i] = i + 1;
-	}
-	i = -1;
-}
 
 int	data_init(t_prog *prog, char **av)
 {
@@ -72,6 +56,7 @@ int	data_init(t_prog *prog, char **av)
 	prog->threads_running_nbr = 0;
 	mutex_handle(&prog->table_mutex, INIT);
 	mutex_handle(&prog->write_lock, INIT);
+	mutex_handle(&prog->which_philo_eat_lock, INIT);
 	while (++i < prog->num_of_philos)
 	{
 		mutex_handle(&prog->forks[i].fork, INIT);

@@ -8,6 +8,7 @@ SRCS = main.c\
 	   init.c\
 	   lock_unlock.c\
 	   utils.c\
+	   status_utils.c\
 	   mutex_and_thread.c\
 	   monitor.c\
 	   sync.c\

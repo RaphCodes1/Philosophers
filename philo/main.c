@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:33 by rcreer            #+#    #+#             */
-/*   Updated: 2025/01/27 17:59:34 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/03 16:11:32 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	creation_thread(t_prog *prog)
 }
 
 int	malloc_check(t_prog *prog)
-{	
+{
 	prog->eat_stat = malloc(sizeof(t_prog) * prog->num_of_philos);
-	if(!prog->eat_stat)
+	if (!prog->eat_stat)
 		return (0);
 	prog->philos = malloc(sizeof(t_philo) * prog->num_of_philos);
 	if (!prog->philos)
@@ -77,7 +77,7 @@ int	malloc_check(t_prog *prog)
 	}
 	prog->forks = malloc(sizeof(t_fork) * prog->num_of_philos);
 	if (!prog->forks)
-	{	
+	{
 		free(prog->eat_stat);
 		free(prog->philos);
 		return (0);
