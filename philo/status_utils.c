@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:12:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/03 16:46:47 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/04 19:41:27 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	set_eat_stat(t_philo *philo)
 	i = 0;
 	while (++i <= philo->program->num_of_philos)
 	{
-		// mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
 		if (i == philo->id)
 		{
 			if (i == philo->program->num_of_philos)
@@ -80,7 +79,6 @@ void	set_eat_stat(t_philo *philo)
 				philo->program->eat_stat[i] = philo->id;
 			}
 		}
-		// mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
 	}
 }
 

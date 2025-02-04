@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:46 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/03 16:46:55 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/04 20:31:19 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	eat(t_philo *philo)
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	if (philo->program->num_times_to_eat > 0
 		&& philo->meal_count >= philo->program->num_times_to_eat)
-	{
-		write_status(SLEEPING, philo);
 		set_bool(&philo->philo_mutex, &philo->full, true);
-	}
 	mutex_handle(&philo->r_fork->fork, UNLOCK);
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
 	mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
@@ -76,8 +73,6 @@ void	*dinner_sim(void *data)
 	desync_philo(philo);
 	while (!sim_finished(philo->program))
 	{
-		if (get_bool(&philo->philo_mutex, &philo->full))
-			break ;
 		mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
 		check = which_philo_check(philo);
 		mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
