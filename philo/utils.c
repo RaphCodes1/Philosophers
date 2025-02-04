@@ -77,11 +77,11 @@ void	write_status(t_philo_stat status, t_philo *philo)
 	if ((TAKE_R_FORK == status || TAKE_L_FORK == status)
 		&& !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d has taken a fork\n", elapsed, philo->id);
-	else if (EATING == status)
+	else if (EATING == status && !sim_finished(philo->program))
 		printf(BLUE "%-6ld%d is eating\n" RESET, elapsed, philo->id);
-	else if (SLEEPING == status)
+	else if (SLEEPING == status && !sim_finished(philo->program))
 		printf(WHITE "%-6ld%d is sleeping\n" RESET, elapsed, philo->id);
-	else if (THINKING == status)
+	else if (THINKING == status && !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d is thinking\n", elapsed, philo->id);
 	else if (DIED == status && !sim_finished(philo->program))
 		printf(RED "%-6ld%d died\n" RESET, elapsed, philo->id);

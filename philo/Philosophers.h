@@ -156,4 +156,3 @@ void					eat_stat_init(t_prog *prog);
 
 // monitor
 void					*monitor_dinner(void *data);
-bool					all_philo_full(t_prog *prog);

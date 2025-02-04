@@ -17,25 +17,17 @@ int	which_philo_check(t_philo *philo)
 	int	i;
 
 	i = -1;
-	if (philo->program->num_of_philos % 2 == 0)
+	while (++i <= philo->program->num_of_philos)
 	{
-		lock_forks(philo);
-		return (1);
-	}
-	else
-	{
-		while (++i <= philo->program->num_of_philos)
+		if (i == philo->id)
 		{
-			if (i == philo->id)
+			if (philo->program->eat_stat[i - 1] != philo->id
+				&& philo->program->eat_stat[i] != philo->id)
 			{
-				if (philo->program->eat_stat[i - 1] != philo->id
-					&& philo->program->eat_stat[i] != philo->id)
-				{
-					lock_forks(philo);
-					return (1);
-				}
-				return (0);
+				lock_forks(philo);
+				return (1);
 			}
+			return (0);
 		}
 	}
 	return (0);

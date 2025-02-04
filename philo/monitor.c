@@ -56,8 +56,6 @@ void	*monitor_dinner(void *data)
 	while (!sim_finished(prog))
 	{
 		i = 0;
-		if(philo_full_check(prog->philos))
-			set_bool(&prog->table_mutex, &prog->end_sim, true);
 		while (i < prog->num_of_philos)
 		{
 			if (philo_dead(&prog->philos[i]))
@@ -67,7 +65,8 @@ void	*monitor_dinner(void *data)
 			}
 			i++;
 		}
-		usleep(100);
+		if(philo_full_check(prog->philos)) 
+			set_bool(&prog->table_mutex, &prog->end_sim, true);
 	}
 	return (NULL);
 }

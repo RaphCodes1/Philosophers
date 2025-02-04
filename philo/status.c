@@ -20,11 +20,7 @@ void	eat(t_philo *philo)
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	if (philo->program->num_times_to_eat > 0
 		&& philo->meal_count == philo->program->num_times_to_eat)
-	{
-		sleeping(philo);
-		think(philo, false);
 		set_bool(&philo->philo_mutex, &philo->full, true);
-	}
 	mutex_handle(&philo->r_fork->fork, UNLOCK);
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
 	mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
@@ -76,7 +72,7 @@ void	*dinner_sim(void *data)
 		&philo->program->threads_running_nbr);
 	desync_philo(philo);
 	while (!sim_finished(philo->program))
-	{
+	{	
 		mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
 		check = which_philo_check(philo);
 		mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
