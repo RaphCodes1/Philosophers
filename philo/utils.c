@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:00:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/03 16:12:41 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/04 19:35:31 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,15 @@ void	write_status(t_philo_stat status, t_philo *philo)
 	long	elapsed;
 
 	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
-	if (philo->full)
-		return ;
 	mutex_handle(&philo->program->write_lock, LOCK);
 	if ((TAKE_R_FORK == status || TAKE_L_FORK == status)
 		&& !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d has taken a fork\n", elapsed, philo->id);
-	else if (EATING == status && !sim_finished(philo->program))
+	else if (EATING == status)
 		printf(BLUE "%-6ld%d is eating\n" RESET, elapsed, philo->id);
-	else if (SLEEPING == status && !sim_finished(philo->program))
+	else if (SLEEPING == status)
 		printf(WHITE "%-6ld%d is sleeping\n" RESET, elapsed, philo->id);
-	else if (THINKING == status && !sim_finished(philo->program))
+	else if (THINKING == status)
 		printf(WHITE "%-6ld" RESET "%d is thinking\n", elapsed, philo->id);
 	else if (DIED == status && !sim_finished(philo->program))
 		printf(RED "%-6ld%d died\n" RESET, elapsed, philo->id);
