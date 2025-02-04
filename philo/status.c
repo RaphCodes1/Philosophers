@@ -20,7 +20,10 @@ void	eat(t_philo *philo)
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	if (philo->program->num_times_to_eat > 0
 		&& philo->meal_count >= philo->program->num_times_to_eat)
+	{
+		write_status(SLEEPING, philo);
 		set_bool(&philo->philo_mutex, &philo->full, true);
+	}
 	mutex_handle(&philo->r_fork->fork, UNLOCK);
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
 	mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
