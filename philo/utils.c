@@ -72,8 +72,8 @@ void	write_status(t_philo_stat status, t_philo *philo)
 {
 	long	elapsed;
 
-	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
 	mutex_handle(&philo->program->write_lock, LOCK);
+	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
 	if ((TAKE_R_FORK == status || TAKE_L_FORK == status)
 		&& !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d has taken a fork\n", elapsed, philo->id);

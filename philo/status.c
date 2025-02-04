@@ -31,13 +31,13 @@ void	eat(t_philo *philo)
 }
 
 void	think(t_philo *philo, bool pre_sim)
-{
+{	
 	if (!pre_sim)
 		write_status(THINKING, philo);
 	if (philo->program->num_of_philos % 2 == 0)
 		return ;
 	else
-		prec_usleep(2000, philo->program);
+		prec_usleep(100, philo->program);
 }
 
 void	sleeping(t_philo *philo)
@@ -69,6 +69,7 @@ void	*dinner_sim(void *data)
 	check = 0;
 	philo = (t_philo *)data;
 	wait_threads(philo);
+
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	increase_val(&philo->program->table_mutex,
 		&philo->program->threads_running_nbr);

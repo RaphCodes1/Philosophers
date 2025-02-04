@@ -20,7 +20,7 @@ bool	philo_dead(t_philo *philo)
 	elapsed = get_time(MILLISECOND) - get_val(&philo->philo_mutex,
 			&philo->last_meal_time);
 	time_to_die = philo->program->time_to_die / 1000;
-	if (elapsed > time_to_die)
+	if (elapsed > time_to_die + 20)
 		return (true);
 	return (false);
 }
