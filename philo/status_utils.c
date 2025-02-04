@@ -79,7 +79,7 @@ void	eat_stat_init(t_prog *prog)
 	int	i;
 
 	i = -1;
-	while (++i <= prog->num_of_philos)
+	while (++i < prog->num_of_philos)
 	{
 		if (i == 0 || i == prog->num_of_philos - 1)
 			prog->eat_stat[i] = prog->num_of_philos;
