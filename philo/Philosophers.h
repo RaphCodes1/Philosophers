@@ -66,6 +66,7 @@ struct					s_prog
 	pthread_mutex_t		table_mutex;
 	pthread_mutex_t		write_lock;
 	pthread_mutex_t		which_philo_eat_lock;
+	pthread_mutex_t		philo_full_mutex;
 	pthread_t			monitor;
 	long				threads_running_nbr;
 	int					*eat_stat;

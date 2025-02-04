@@ -16,7 +16,9 @@ void	eat(t_philo *philo)
 {
 	write_status(EATING, philo);
 	prec_usleep(philo->program->time_to_eat, philo->program);
+	mutex_handle(&philo->program->philo_full_mutex, LOCK);
 	philo->meal_count++;
+	mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	if (philo->program->num_times_to_eat > 0
 		&& philo->meal_count == philo->program->num_times_to_eat)

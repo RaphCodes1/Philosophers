@@ -57,6 +57,7 @@ int	data_init(t_prog *prog, char **av)
 	mutex_handle(&prog->table_mutex, INIT);
 	mutex_handle(&prog->write_lock, INIT);
 	mutex_handle(&prog->which_philo_eat_lock, INIT);
+	mutex_handle(&prog->philo_full_mutex, INIT);
 	while (++i < prog->num_of_philos)
 	{
 		mutex_handle(&prog->forks[i].fork, INIT);

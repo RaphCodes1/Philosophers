@@ -94,6 +94,8 @@ void	clean(t_prog *prog)
 		mutex_handle(&prog->philos[i].philo_mutex, DESTROY);
 	mutex_handle(&prog->write_lock, DESTROY);
 	mutex_handle(&prog->table_mutex, DESTROY);
+	mutex_handle(&prog->which_philo_eat_lock, DESTROY);
+	mutex_handle(&prog->philo_full_mutex, DESTROY);
 	free(prog->eat_stat);
 	free(prog->philos);
 	free(prog->forks);

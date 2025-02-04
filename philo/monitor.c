@@ -34,10 +34,10 @@ bool   philo_full_check(t_philo *philo)
 	i = -1;
 	while(++i < philo->program->num_of_philos)
 	{	
-		mutex_handle(&philo->program->table_mutex, LOCK);
+		mutex_handle(&philo->program->philo_full_mutex, LOCK);
 		if(philo[i].meal_count == philo->program->num_times_to_eat)
 			check++;
-		mutex_handle(&philo->program->table_mutex, UNLOCK);
+		mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
 	}
 	if(check == philo->program->num_of_philos)
 		return(true);
