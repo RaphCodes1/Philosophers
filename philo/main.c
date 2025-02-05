@@ -66,7 +66,7 @@ void	creation_thread(t_prog *prog)
 
 int	malloc_check(t_prog *prog)
 {
-	prog->eat_stat = malloc(sizeof(t_prog) * prog->num_of_philos);
+	prog->eat_stat = malloc(sizeof(int) * prog->num_of_philos);
 	if (!prog->eat_stat)
 		return (0);
 	prog->philos = malloc(sizeof(t_philo) * prog->num_of_philos);

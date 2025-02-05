@@ -20,7 +20,7 @@ bool	philo_dead(t_philo *philo)
 	elapsed = get_time(MILLISECOND) - get_val(&philo->philo_mutex,
 			&philo->last_meal_time);
 	time_to_die = philo->program->time_to_die / 1000;
-	if (elapsed > time_to_die + 100)
+	if (elapsed > time_to_die + 9)
 		return (true);
 	return (false);
 }
@@ -67,6 +67,7 @@ void	*monitor_dinner(void *data)
 		}
 		if(philo_full_check(prog->philos)) 
 			set_bool(&prog->table_mutex, &prog->end_sim, true);
+		usleep(100);
 	}
 	return (NULL);
 }
