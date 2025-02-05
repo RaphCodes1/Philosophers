@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:17 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/03 16:09:41 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:23:11 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	av_input(t_prog *prog, char **av)
 	if (av[5])
 	{
 		prog->num_times_to_eat = ft_atol(av[5]);
-		if(prog->num_times_to_eat <= 0)
+		if (prog->num_times_to_eat <= 0)
 			return (0);
 	}
 	else

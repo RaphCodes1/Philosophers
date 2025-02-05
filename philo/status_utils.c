@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:12:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/04 19:41:27 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:23:33 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 int	which_philo_check(t_philo *philo)
 {
 	int	i;
-	int l_fork_pos; 
-	int r_fork_pos;
+	int	l_fork_pos;
+	int	r_fork_pos;
 
 	i = -1;
 	r_fork_pos = philo->r_fork->fork_id;
 	l_fork_pos = philo->l_fork->fork_id;
 	while (++i <= philo->program->num_of_philos)
-	{	
+	{
 		if (i == philo->id)
 		{
 			if (philo->program->eat_stat[l_fork_pos] != philo->id
@@ -33,7 +33,6 @@ int	which_philo_check(t_philo *philo)
 			}
 			return (0);
 		}
-
 	}
 	return (0);
 }
@@ -93,5 +92,4 @@ void	eat_stat_init(t_prog *prog)
 		else if (i % 2 && i + 1 < prog->num_of_philos)
 			prog->eat_stat[i] = i + 1;
 	}
-
 }

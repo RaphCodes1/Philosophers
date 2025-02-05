@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:36 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/04 20:33:09 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:23:17 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,28 @@ bool	philo_dead(t_philo *philo)
 	elapsed = get_time(MILLISECOND) - get_val(&philo->philo_mutex,
 			&philo->last_meal_time);
 	time_to_die = philo->program->time_to_die / 1000;
-	if (elapsed > time_to_die + 9)
+	if (elapsed > time_to_die)
 		return (true);
 	return (false);
 }
 
-bool   philo_full_check(t_philo *philo)
+bool	philo_full_check(t_philo *philo)
 {
-	int i;
-	int check;
+	int	i;
+	int	check;
 
 	check = 0;
 	i = -1;
-	while(++i < philo->program->num_of_philos)
-	{	
+	while (++i < philo->program->num_of_philos)
+	{
 		mutex_handle(&philo->program->philo_full_mutex, LOCK);
-		if(philo[i].meal_count == philo->program->num_times_to_eat)
+		if (philo[i].meal_count == philo->program->num_times_to_eat)
 			check++;
 		mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
 	}
-	if(check == philo->program->num_of_philos)
-		return(true);
-	return(false);
+	if (check == philo->program->num_of_philos)
+		return (true);
+	return (false);
 }
 
 void	*monitor_dinner(void *data)
@@ -65,7 +65,7 @@ void	*monitor_dinner(void *data)
 			}
 			i++;
 		}
-		if(philo_full_check(prog->philos)) 
+		if (philo_full_check(prog->philos))
 			set_bool(&prog->table_mutex, &prog->end_sim, true);
 		usleep(100);
 	}
