@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:00:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/04 19:35:31 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/05 20:15:15 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	write_status(t_philo_stat status, t_philo *philo)
 {
 	long	elapsed;
 
-	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
 	mutex_handle(&philo->program->write_lock, LOCK);
+	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
 	if ((TAKE_R_FORK == status || TAKE_L_FORK == status)
 		&& !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d has taken a fork\n", elapsed, philo->id);

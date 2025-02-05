@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:46 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/05 17:23:23 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/05 20:19:13 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,40 @@ void	eat(t_philo *philo)
 	mutex_handle(&philo->program->philo_full_mutex, LOCK);
 	philo->meal_count++;
 	mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
-	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
-	if (philo->program->num_times_to_eat > 0
-		&& philo->meal_count == philo->program->num_times_to_eat)
-		set_bool(&philo->philo_mutex, &philo->full, true);
+	set_val(&philo->program->table_mutex, &philo->last_meal_time, get_time(MILLISECOND));
+	// if (philo->program->num_times_to_eat > 0
+	// 	&& philo->meal_count == philo->program->num_times_to_eat)
+	// 	set_bool(&philo->philo_mutex, &philo->full, true);
+	if (philo->id % 2 == 0)
+	{
+		mutex_handle(&philo->r_fork->fork, UNLOCK);
+		mutex_handle(&philo->l_fork->fork, UNLOCK);
+	}
+	else if (philo->id % 2)
+	{
+		mutex_handle(&philo->l_fork->fork, UNLOCK);
+		mutex_handle(&philo->r_fork->fork, UNLOCK);
+	}
+	mutex_handle(&philo->r_fork->fork, LOCK);
+	mutex_handle(&philo->l_fork->fork, LOCK);
+	philo->program->eat_stat[philo->l_fork->fork_id] = philo->id;
+	philo->program->eat_stat[philo->r_fork->fork_id] = philo->id;
 	mutex_handle(&philo->r_fork->fork, UNLOCK);
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
-	mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
-	set_eat_stat(philo);
-	mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
+	// mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
+	// set_eat_stat(philo);
+	// mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
 }
 
 void	think(t_philo *philo, bool pre_sim)
 {
 	if (!pre_sim)
 		write_status(THINKING, philo);
-	if (philo->program->num_of_philos % 2 == 0)
-		return ;
-	else
-		prec_usleep(100, philo->program);
+	// if (philo->program->num_of_philos % 2 == 0)
+	// 	return ;
+	// else
+	// 	prec_usleep(100, philo->program);
+	prec_usleep(100, philo->program);
 }
 
 void	sleeping(t_philo *philo)
@@ -75,10 +90,10 @@ void	*dinner_sim(void *data)
 	desync_philo(philo);
 	while (!sim_finished(philo->program))
 	{
-		mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
-		check = which_philo_check(philo);
-		mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
-		if (check)
+		// mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
+		// check = which_philo_check(philo);
+		// mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
+		if (which_philo_check(philo))
 		{
 			eat(philo);
 			sleeping(philo);

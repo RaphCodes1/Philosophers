@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:12:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/05 17:23:33 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/05 19:56:12 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,20 @@
 
 int	which_philo_check(t_philo *philo)
 {
-	int	i;
 	int	l_fork_pos;
 	int	r_fork_pos;
 
-	i = -1;
+	mutex_handle(&philo->r_fork->fork, LOCK);
 	r_fork_pos = philo->r_fork->fork_id;
+	mutex_handle(&philo->r_fork->fork, UNLOCK);
+	mutex_handle(&philo->r_fork->fork, LOCK);
 	l_fork_pos = philo->l_fork->fork_id;
-	while (++i <= philo->program->num_of_philos)
+	mutex_handle(&philo->r_fork->fork, UNLOCK);
+	if (philo->program->eat_stat[l_fork_pos] != philo->id
+		&& philo->program->eat_stat[r_fork_pos] != philo->id)
 	{
-		if (i == philo->id)
-		{
-			if (philo->program->eat_stat[l_fork_pos] != philo->id
-				&& philo->program->eat_stat[r_fork_pos] != philo->id)
-			{
-				lock_forks(philo);
-				return (1);
-			}
-			return (0);
-		}
+		lock_forks(philo);
+		return (1);
 	}
 	return (0);
 }
