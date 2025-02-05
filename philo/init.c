@@ -107,7 +107,11 @@ int	av_input(t_prog *prog, char **av)
 		return (0);
 	}
 	if (av[5])
+	{
 		prog->num_times_to_eat = ft_atol(av[5]);
+		if(prog->num_times_to_eat <= 0)
+			return (0);
+	}
 	else
 		prog->num_times_to_eat = -1;
 	return (1);
