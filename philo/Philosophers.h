@@ -154,3 +154,6 @@ void					eat_stat_init(t_prog *prog);
 
 // monitor
 void					*monitor_dinner(void *data);
+
+//printing
+void					gs_logs(t_philo *philo, int id, char *msg);

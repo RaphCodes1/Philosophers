@@ -26,26 +26,30 @@ int	which_philo_check(t_philo *philo)
 	if (philo->program->eat_stat[l_fork_pos] != philo->id
 		&& philo->program->eat_stat[r_fork_pos] != philo->id)
 	{
-		lock_forks(philo);
+		// lock_forks(philo);
 		return (1);
 	}
 	return (0);
 }
 
 void	lock_forks(t_philo *philo)
-{
+{	
 	if (philo->id % 2 == 0)
 	{
 		mutex_handle(&philo->r_fork->fork, LOCK);
-		write_status(TAKE_R_FORK, philo);
 		mutex_handle(&philo->l_fork->fork, LOCK);
+		// gs_logs(philo, philo->id, "has taken a fork");
+		// gs_logs(philo, philo->id, "has taken a fork");
+		write_status(TAKE_R_FORK, philo);
 		write_status(TAKE_L_FORK, philo);
 	}
 	else if (philo->id % 2)
 	{
 		mutex_handle(&philo->l_fork->fork, LOCK);
-		write_status(TAKE_L_FORK, philo);
 		mutex_handle(&philo->r_fork->fork, LOCK);
+		// gs_logs(philo, philo->id, "has taken a fork");
+		// gs_logs(philo, philo->id, "has taken a fork");
+		write_status(TAKE_L_FORK, philo);
 		write_status(TAKE_R_FORK, philo);
 	}
 }

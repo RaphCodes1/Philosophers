@@ -14,15 +14,14 @@
 
 void	eat(t_philo *philo)
 {
+	lock_forks(philo);
 	write_status(EATING, philo);
+	// gs_logs(philo, philo->id, "is eating");
 	prec_usleep(philo->program->time_to_eat, philo->program);
 	mutex_handle(&philo->program->philo_full_mutex, LOCK);
 	philo->meal_count++;
 	mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
 	set_val(&philo->program->table_mutex, &philo->last_meal_time, get_time(MILLISECOND));
-	// if (philo->program->num_times_to_eat > 0
-	// 	&& philo->meal_count == philo->program->num_times_to_eat)
-	// 	set_bool(&philo->philo_mutex, &philo->full, true);
 	if (philo->id % 2 == 0)
 	{
 		mutex_handle(&philo->r_fork->fork, UNLOCK);
@@ -39,25 +38,24 @@ void	eat(t_philo *philo)
 	philo->program->eat_stat[philo->r_fork->fork_id] = philo->id;
 	mutex_handle(&philo->r_fork->fork, UNLOCK);
 	mutex_handle(&philo->l_fork->fork, UNLOCK);
-	// mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
-	// set_eat_stat(philo);
-	// mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
 }
 
 void	think(t_philo *philo, bool pre_sim)
 {
 	if (!pre_sim)
 		write_status(THINKING, philo);
+		// gs_logs(philo, philo->id, "is thinking");
 	// if (philo->program->num_of_philos % 2 == 0)
 	// 	return ;
 	// else
 	// 	prec_usleep(100, philo->program);
-	prec_usleep(100, philo->program);
+	// prec_usleep(100, philo->program);
 }
 
 void	sleeping(t_philo *philo)
 {
 	write_status(SLEEPING, philo);
+	// gs_logs(philo, philo->id, "is sleeping");
 	prec_usleep(philo->program->time_to_sleep, philo->program);
 }
 
