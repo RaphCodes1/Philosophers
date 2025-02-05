@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:43 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/03 16:09:01 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:57:25 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@
 #define MAGENTA "\033[35m"
 #define CYAN "\033[36m"
 #define WHITE "\033[37m"
-
-// /*write function macro*/
-// #define DEBUG_MODE 0
 
 typedef struct s_prog	t_prog;
 typedef struct s_fork
