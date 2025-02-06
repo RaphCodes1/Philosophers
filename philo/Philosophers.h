@@ -46,7 +46,6 @@ typedef struct s_philo
 	pthread_t			thread_id;
 	long				meal_count;
 	long				last_meal_time;
-	bool				full;
 	t_fork				*l_fork;
 	t_fork				*r_fork;
 	t_prog				*program;
