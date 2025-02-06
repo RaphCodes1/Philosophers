@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:46 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/06 17:15:26 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/06 20:07:25 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ void	think(t_philo *philo, bool pre_sim)
 	if (!pre_sim)
 		write_status(THINKING, philo);
 		// gs_logs(philo, philo->id, "is thinking");
-	// if (philo->program->num_of_philos % 2 == 0)
-	// 	return ;
-	// else
-	// 	prec_usleep(100, philo->program);
-	// prec_usleep(100, philo->program);
+	if (philo->program->num_of_philos % 2 == 0)
+		return ;
+	else
+		usleep(500);
 }
 
 void	sleeping(t_philo *philo)
@@ -99,13 +98,13 @@ void	*dinner_sim(void *data)
 	set_val(&philo->philo_mutex, &philo->last_meal_time, gs_time());
 	// increase_val(&philo->program->table_mutex,
 		// &philo->program->threads_running_nbr);
-	desync_philo(philo);
+	// desync_philo(philo);
 	while (!sim_finished(philo->program))
 	{
-		// mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
-		// check = which_philo_check(philo);
-		// mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
-		if (which_philo_check(philo))
+		mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
+		check = which_philo_check(philo);
+		mutex_handle(&philo->program->which_philo_eat_lock, UNLOCK);
+		if (check)
 		{	
 			lock_forks(philo);
 			eat(philo);

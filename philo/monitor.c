@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:36 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/06 17:15:38 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/06 20:07:27 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@ bool	philo_dead(t_philo *philo)
 	long	elapsed;
 	long	time_to_die;
 
+	mutex_handle(&philo->program->table_mutex, LOCK);
 	elapsed = gs_time() - get_val(&philo->philo_mutex,
 			&philo->last_meal_time);
 	time_to_die = philo->program->time_to_die;
 	if (elapsed > time_to_die)
+	{
+		mutex_handle(&philo->program->table_mutex, UNLOCK);
 		return (true);
+	}
+	mutex_handle(&philo->program->table_mutex, UNLOCK);
 	return (false);
 }
 
@@ -67,7 +72,7 @@ void	*monitor_dinner(void *data)
 		}
 		if (philo_full_check(prog->philos))
 			set_bool(&prog->table_mutex, &prog->end_sim, true);
-		// usleep(100);
+		usleep(100);
 	}
 	return (NULL);
 }
