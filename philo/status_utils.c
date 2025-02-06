@@ -12,6 +12,32 @@
 
 #include "Philosophers.h"
 
+unsigned long	gs_time(void)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+	{
+		printf("Error: gettimeofday failed\n");
+		exit(1);
+	}
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+int	gs_sleep(unsigned long time, t_philo *philo)
+{
+	unsigned long	start;
+
+	start = gs_time();
+	while (gs_time() - start < time)
+	{
+		// if (check_dead(philo->phdata))
+		// 	return (1);
+		usleep(500);
+	}
+	return (0);
+}
+
 void	order_pick(t_philo *philo, int *first, int *second)
 {
 	if (philo->l_fork < philo->r_fork)

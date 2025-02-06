@@ -12,21 +12,6 @@
 
 #include "Philosophers.h"
 
-
-void	gs_sleep(unsigned long time, t_philo *philo)
-{
-	unsigned long	start;
-
-	start = get_time(MILLISECOND);
-	while (get_time(MILLISECOND) - start < time)
-	{
-		// if (check_dead(philo->phdata))
-		// 	return (1);
-		usleep(500);
-	}
-	// return (0);
-}
-
 long	get_time(t_time t_code)
 {
 	struct timeval	tv;

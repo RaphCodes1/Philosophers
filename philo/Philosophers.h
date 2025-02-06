@@ -160,5 +160,6 @@ void					*monitor_dinner(void *data);
 
 //new_functions
 void					forks_down(t_philo *philo);
-void					gs_sleep(unsigned long time, t_philo *philo);
+int						gs_sleep(unsigned long time, t_philo *philo);
+unsigned long			gs_time(void);
 

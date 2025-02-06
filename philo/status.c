@@ -19,13 +19,13 @@ void 	eat(t_philo *philo)
 	write_status(TAKE_L_FORK, philo);
 	write_status(TAKE_R_FORK, philo);
 	write_status(EATING, philo);
-	prec_usleep(philo->program->time_to_eat, philo->program);
-	// gs_sleep(philo->program->time_to_eat, philo);
+	// prec_usleep(philo->program->time_to_eat, philo->program);
+	gs_sleep(philo->program->time_to_eat, philo);
 	forks_down(philo);
 	mutex_handle(&philo->program->philo_full_mutex, LOCK);
 	philo->meal_count++;
 	mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
-	set_val(&philo->program->table_mutex, &philo->last_meal_time, get_time(MILLISECOND));
+	set_val(&philo->program->table_mutex, &philo->last_meal_time, gs_time());
 
 	// lock_forks(philo);
 	// write_status(EATING, philo);
@@ -69,8 +69,8 @@ void	sleeping(t_philo *philo)
 {
 	write_status(SLEEPING, philo);
 	// gs_logs(philo, philo->id, "is sleeping");
-	prec_usleep(philo->program->time_to_sleep, philo->program);
-	// gs_sleep(philo->program->time_to_eat, philo);
+	// prec_usleep(philo->program->time_to_sleep, philo->program);
+	gs_sleep(philo->program->time_to_eat, philo);
 }
 
 void	*one_philo(void *data)
@@ -96,7 +96,7 @@ void	*dinner_sim(void *data)
 	check = 0;
 	philo = (t_philo *)data;
 	wait_threads(philo);
-	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
+	set_val(&philo->philo_mutex, &philo->last_meal_time, gs_time());
 	increase_val(&philo->program->table_mutex,
 		&philo->program->threads_running_nbr);
 	// desync_philo(philo);

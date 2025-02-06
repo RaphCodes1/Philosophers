@@ -55,7 +55,7 @@ void	creation_thread(t_prog *prog)
 		}
 	}
 	thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
-	prog->start_sim = get_time(MILLISECOND);
+	prog->start_sim = gs_time();
 	set_bool(&prog->table_mutex, &prog->threads_ready, true);
 	i = -1;
 	while (++i < prog->num_of_philos)
