@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:33 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/04 20:15:16 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:14:23 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	creation_thread(t_prog *prog)
 	}
 	thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
 	prog->start_sim = gs_time();
-	set_bool(&prog->table_mutex, &prog->threads_ready, true);
+	// set_bool(&prog->table_mutex, &prog->threads_ready, true);
 	i = -1;
 	while (++i < prog->num_of_philos)
 		thread_handle(&prog->philos[i].thread_id, NULL, NULL, JOIN);

@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:36 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/05 17:23:17 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:15:38 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	*monitor_dinner(void *data)
 	int		i;
 
 	prog = (t_prog *)data;
-	while (!threads_run_check(&prog->table_mutex, prog->num_of_philos,
-			&prog->threads_running_nbr))
-		;
+	// while (!threads_run_check(&prog->table_mutex, prog->num_of_philos,
+	// 		&prog->threads_running_nbr))
+	// 	;
 	while (!sim_finished(prog))
 	{
 		i = 0;

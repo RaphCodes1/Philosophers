@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:12:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/05 19:56:12 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:17:39 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	gs_sleep(unsigned long time, t_philo *philo)
 	start = gs_time();
 	while (gs_time() - start < time)
 	{
-		// if (check_dead(philo->phdata))
-		// 	return (1);
+		if (sim_finished(philo->program))
+			return (1);
 		usleep(500);
 	}
 	return (0);
