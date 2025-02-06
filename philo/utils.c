@@ -12,6 +12,21 @@
 
 #include "Philosophers.h"
 
+
+void	gs_sleep(unsigned long time, t_philo *philo)
+{
+	unsigned long	start;
+
+	start = get_time(MILLISECOND);
+	while (get_time(MILLISECOND) - start < time)
+	{
+		// if (check_dead(philo->phdata))
+		// 	return (1);
+		usleep(500);
+	}
+	// return (0);
+}
+
 long	get_time(t_time t_code)
 {
 	struct timeval	tv;
@@ -42,7 +57,7 @@ void	prec_usleep(long usec, t_prog *prog)
 			break ;
 		elapsed = get_time(MICROSECOND) - start;
 		rem = usec - elapsed;
-		if (rem > 1e3)
+		if (rem > 1000)
 			usleep(rem / 2);
 		else
 			while (get_time(MICROSECOND) - start < usec)
@@ -50,36 +65,36 @@ void	prec_usleep(long usec, t_prog *prog)
 	}
 }
 
-void	write_stat_debug(t_philo_stat status, t_philo *philo, long elapsed)
-{
-	if ((TAKE_R_FORK == status && !sim_finished(philo->program)))
-		printf("%-6ld %d has taken R fork %d\n", elapsed, philo->id,
-			philo->r_fork->fork_id);
-	else if ((TAKE_L_FORK == status && !sim_finished(philo->program)))
-		printf("%-6ld %d has taken L fork %d\n", elapsed, philo->id,
-			philo->l_fork->fork_id);
-	else if (EATING == status && !sim_finished(philo->program))
-		printf(BLUE "%-6ld %d is eating\n" RESET, elapsed, philo->id);
-	else if (SLEEPING == status && !sim_finished(philo->program))
-		printf("%-6ld %d is sleeping\n", elapsed, philo->id);
-	else if (THINKING == status && !sim_finished(philo->program))
-		printf("%-6ld %d is thinking\n", elapsed, philo->id);
-	else if (DIED == status && !sim_finished(philo->program))
-		printf(RED "%-6ld %d has died\n" RESET, elapsed, philo->id);
-}
+// void	write_stat_debug(t_philo_stat status, t_philo *philo, long elapsed)
+// {
+// 	if ((TAKE_R_FORK == status && !sim_finished(philo->program)))
+// 		printf("%-6ld %d has taken R fork %d\n", elapsed, philo->id,
+// 			philo->r_fork->fork_id);
+// 	else if ((TAKE_L_FORK == status && !sim_finished(philo->program)))
+// 		printf("%-6ld %d has taken L fork %d\n", elapsed, philo->id,
+// 			philo->l_fork->fork_id);
+// 	else if (EATING == status && !sim_finished(philo->program))
+// 		printf(BLUE "%-6ld %d is eating\n" RESET, elapsed, philo->id);
+// 	else if (SLEEPING == status && !sim_finished(philo->program))
+// 		printf("%-6ld %d is sleeping\n", elapsed, philo->id);
+// 	else if (THINKING == status && !sim_finished(philo->program))
+// 		printf("%-6ld %d is thinking\n", elapsed, philo->id);
+// 	else if (DIED == status && !sim_finished(philo->program))
+// 		printf(RED "%-6ld %d has died\n" RESET, elapsed, philo->id);
+// }
 
-void	gs_logs(t_philo *philo, int id, char *msg)
-{
-	pthread_mutex_lock(&philo->program->write_lock);
-	// if (check_dead(phdata))
-	// {
-	// 	pthread_mutex_unlock(&phdata->print);
-	// 	return (1);
-	// }
-	printf("%ld %d %s\n", get_time(MILLISECOND) - philo->program->start_sim, id, msg);
-	pthread_mutex_unlock(&philo->program->write_lock);
-	// return (0);
-}
+// void	gs_logs(t_philo *philo, int id, char *msg)
+// {
+// 	pthread_mutex_lock(&philo->program->write_lock);
+// 	// if (check_dead(phdata))
+// 	// {
+// 	// 	pthread_mutex_unlock(&phdata->print);
+// 	// 	return (1);
+// 	// }
+// 	printf("%ld %d %s\n", get_time(MILLISECOND) - philo->program->start_sim, id, msg);
+// 	pthread_mutex_unlock(&philo->program->write_lock);
+// 	// return (0);
+// }
 
 void	write_status(t_philo_stat status, t_philo *philo)
 {

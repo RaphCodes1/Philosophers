@@ -12,46 +12,90 @@
 
 #include "Philosophers.h"
 
-int	which_philo_check(t_philo *philo)
+void	order_pick(t_philo *philo, int *first, int *second)
 {
-	int	l_fork_pos;
-	int	r_fork_pos;
-
-	mutex_handle(&philo->r_fork->fork, LOCK);
-	r_fork_pos = philo->r_fork->fork_id;
-	mutex_handle(&philo->r_fork->fork, UNLOCK);
-	mutex_handle(&philo->r_fork->fork, LOCK);
-	l_fork_pos = philo->l_fork->fork_id;
-	mutex_handle(&philo->r_fork->fork, UNLOCK);
-	if (philo->program->eat_stat[l_fork_pos] != philo->id
-		&& philo->program->eat_stat[r_fork_pos] != philo->id)
+	if (philo->l_fork < philo->r_fork)
 	{
-		// lock_forks(philo);
-		return (1);
+		*first = philo->l_fork;
+		*second = philo->r_fork;
 	}
-	return (0);
+	else
+	{
+		*first = philo->r_fork;
+		*second = philo->l_fork;
+	}
 }
 
+int	which_philo_check(t_philo *philo)
+{
+	int	first;
+	int	second;
+	int f1_open;
+	int f2_open;
+
+	order_pick(philo, &first, &second);
+	mutex_handle(&philo->program->forks_mutex[first], LOCK);
+	f1_open = philo->program->eat_stat[first];
+	mutex_handle(&philo->program->forks_mutex[first], UNLOCK);
+	mutex_handle(&philo->program->forks_mutex[second], LOCK);
+	f1_open = philo->program->eat_stat[second];
+	mutex_handle(&philo->program->forks_mutex[second], UNLOCK);
+	if (f1_open != philo->id && f2_open != philo->id)
+		return (1);
+	return (0);
+	// mutex_handle(&philo->r_fork->fork, LOCK);
+	// r_fork_pos = philo->r_fork->fork_id;
+	// mutex_handle(&philo->r_fork->fork, UNLOCK);
+	// mutex_handle(&philo->r_fork->fork, LOCK);
+	// l_fork_pos = philo->l_fork->fork_id;
+	// mutex_handle(&philo->r_fork->fork, UNLOCK);
+	// if (philo->program->eat_stat[l_fork_pos] != philo->id
+	// 	&& philo->program->eat_stat[r_fork_pos] != philo->id)
+	// {
+	// 	// lock_forks(philo);
+	// 	return (1);
+	// }
+	// return (0);
+}
+
+void	forks_down(t_philo *philo)
+{
+	int f1;
+	int f2;
+	order_pick(philo, &f1, &f2);
+	philo->program->eat_stat[f1] = philo->id;
+	philo->program->eat_stat[f2] = philo->id;
+	mutex_handle(&philo->program->forks_mutex[f1], UNLOCK);
+	mutex_handle(&philo->program->forks_mutex[f2], UNLOCK);
+}
 void	lock_forks(t_philo *philo)
 {	
-	if (philo->id % 2 == 0)
-	{
-		mutex_handle(&philo->r_fork->fork, LOCK);
-		mutex_handle(&philo->l_fork->fork, LOCK);
-		// gs_logs(philo, philo->id, "has taken a fork");
-		// gs_logs(philo, philo->id, "has taken a fork");
-		write_status(TAKE_R_FORK, philo);
-		write_status(TAKE_L_FORK, philo);
-	}
-	else if (philo->id % 2)
-	{
-		mutex_handle(&philo->l_fork->fork, LOCK);
-		mutex_handle(&philo->r_fork->fork, LOCK);
-		// gs_logs(philo, philo->id, "has taken a fork");
-		// gs_logs(philo, philo->id, "has taken a fork");
-		write_status(TAKE_L_FORK, philo);
-		write_status(TAKE_R_FORK, philo);
-	}
+
+	int f1;
+	int f2;
+	order_pick(philo, &f1, &f2);
+	mutex_handle(&philo->program->forks_mutex[f1], LOCK);
+	philo->program->eat_stat[f1] = 0;
+	mutex_handle(&philo->program->forks_mutex[f2], LOCK);
+	philo->program->eat_stat[f2] = 0;
+	// if (philo->id % 2 == 0)
+	// {
+	// 	mutex_handle(&philo->r_fork->fork, LOCK);
+	// 	mutex_handle(&philo->l_fork->fork, LOCK);
+	// 	// gs_logs(philo, philo->id, "has taken a fork");
+	// 	// gs_logs(philo, philo->id, "has taken a fork");
+	// 	write_status(TAKE_R_FORK, philo);
+	// 	write_status(TAKE_L_FORK, philo);
+	// }
+	// else if (philo->id % 2)
+	// {
+	// 	mutex_handle(&philo->l_fork->fork, LOCK);
+	// 	mutex_handle(&philo->r_fork->fork, LOCK);
+	// 	// gs_logs(philo, philo->id, "has taken a fork");
+	// 	// gs_logs(philo, philo->id, "has taken a fork");
+	// 	write_status(TAKE_L_FORK, philo);
+	// 	write_status(TAKE_R_FORK, philo);
+	// }
 }
 
 void	set_eat_stat(t_philo *philo)

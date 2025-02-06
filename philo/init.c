@@ -12,19 +12,19 @@
 
 #include "Philosophers.h"
 
-void	assign_forks(t_philo *philo, t_fork *forks, int curr_pos)
-{
-	int	philo_nbr;
+// void	assign_forks(t_philo *philo, t_fork *forks, int curr_pos)
+// {
+// 	int	philo_nbr;
 
-	philo_nbr = philo->program->num_of_philos;
-	philo[curr_pos].r_fork = &forks[(curr_pos + 1) % philo_nbr];
-	philo[curr_pos].l_fork = &forks[curr_pos];
-	if (philo->id % 2 == 0)
-	{
-		philo[curr_pos].r_fork = &forks[curr_pos];
-		philo[curr_pos].l_fork = &forks[(curr_pos + 1) % philo_nbr];
-	}
-}
+// 	philo_nbr = philo->program->num_of_philos;
+// 	philo[curr_pos].r_fork = &forks[(curr_pos + 1) % philo_nbr];
+// 	philo[curr_pos].l_fork = &forks[curr_pos];
+// 	if (philo->id % 2 == 0)
+// 	{
+// 		philo[curr_pos].r_fork = &forks[curr_pos];
+// 		philo[curr_pos].l_fork = &forks[(curr_pos + 1) % philo_nbr];
+// 	}
+// }
 
 void	philo_init(t_prog *prog)
 {
@@ -39,7 +39,9 @@ void	philo_init(t_prog *prog)
 		philo[i].full = false;
 		philo[i].meal_count = 0;
 		philo[i].program = prog;
-		assign_forks(philo, prog->forks, i);
+		philo[i].l_fork = i;
+		philo[i].r_fork = (i + 1) % philo->program->num_of_philos;
+		// assign_forks(philo, prog->forks, i);
 		mutex_handle(&philo[i].philo_mutex, INIT);
 	}
 }
@@ -58,11 +60,13 @@ int	data_init(t_prog *prog, char **av)
 	mutex_handle(&prog->write_lock, INIT);
 	mutex_handle(&prog->which_philo_eat_lock, INIT);
 	mutex_handle(&prog->philo_full_mutex, INIT);
-	while (++i < prog->num_of_philos)
-	{
-		mutex_handle(&prog->forks[i].fork, INIT);
-		prog->forks[i].fork_id = i;
-	}
+	while(++i < prog->num_of_philos)
+		mutex_handle(&prog->forks_mutex[i], INIT);
+	// while (++i < prog->num_of_philos)
+	// {
+	// 	mutex_handle(&prog->forks[i].fork, INIT);
+	// 	prog->forks[i].fork_id = i;
+	// }
 	eat_stat_init(prog);
 	philo_init(prog);
 	return (1);

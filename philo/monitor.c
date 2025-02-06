@@ -67,7 +67,7 @@ void	*monitor_dinner(void *data)
 		}
 		if (philo_full_check(prog->philos))
 			set_bool(&prog->table_mutex, &prog->end_sim, true);
-		usleep(100);
+		// usleep(100);
 	}
 	return (NULL);
 }

@@ -60,8 +60,8 @@ void	creation_thread(t_prog *prog)
 	i = -1;
 	while (++i < prog->num_of_philos)
 		thread_handle(&prog->philos[i].thread_id, NULL, NULL, JOIN);
-	set_bool(&prog->table_mutex, &prog->end_sim, true);
 	thread_handle(&prog->monitor, NULL, NULL, JOIN);
+	// set_bool(&prog->table_mutex, &prog->end_sim, true);
 }
 
 int	malloc_check(t_prog *prog)
@@ -75,13 +75,20 @@ int	malloc_check(t_prog *prog)
 		free(prog->eat_stat);
 		return (0);
 	}
-	prog->forks = malloc(sizeof(t_fork) * prog->num_of_philos);
-	if (!prog->forks)
+	prog->forks_mutex = malloc(sizeof(pthread_mutex_t) * prog->num_of_philos);
+	if (!prog->forks_mutex)
 	{
 		free(prog->eat_stat);
 		free(prog->philos);
 		return (0);
 	}
+	// prog->forks = malloc(sizeof(t_fork) * prog->num_of_philos);
+	// if (!prog->forks)
+	// {
+	// 	free(prog->eat_stat);
+	// 	free(prog->philos);
+	// 	return (0);
+	// }
 	return (1);
 }
 
@@ -92,13 +99,15 @@ void	clean(t_prog *prog)
 	i = -1;
 	while (++i < prog->num_of_philos)
 		mutex_handle(&prog->philos[i].philo_mutex, DESTROY);
+	while (++i < prog->num_of_philos)
+		mutex_handle(&prog->forks_mutex[i], DESTROY);
 	mutex_handle(&prog->write_lock, DESTROY);
 	mutex_handle(&prog->table_mutex, DESTROY);
 	mutex_handle(&prog->which_philo_eat_lock, DESTROY);
 	mutex_handle(&prog->philo_full_mutex, DESTROY);
 	free(prog->eat_stat);
 	free(prog->philos);
-	free(prog->forks);
+	// free(prog->forks);
 }
 
 int	main(int ac, char **av)

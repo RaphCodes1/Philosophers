@@ -44,8 +44,10 @@ typedef struct s_philo
 	long				meal_count;
 	long				last_meal_time;
 	bool				full;
-	t_fork				*l_fork;
-	t_fork				*r_fork;
+	// t_fork				*l_fork;
+	// t_fork				*r_fork;
+	int					l_fork;
+	int					r_fork;
 	t_prog				*program;
 	pthread_mutex_t		philo_mutex;
 }						t_philo;
@@ -67,7 +69,8 @@ struct					s_prog
 	pthread_t			monitor;
 	long				threads_running_nbr;
 	int					*eat_stat;
-	t_fork				*forks;
+	pthread_mutex_t		*forks_mutex;
+	// t_fork				*forks;
 	t_philo				*philos;
 };
 
@@ -106,8 +109,8 @@ void					ft_putstr_fd(char *s, int fd);
 unsigned long long		ft_atol(char *s);
 
 // init
-void					assign_forks(t_philo *philo, t_fork *forks,
-							int curr_pos);
+// void					assign_forks(t_philo *philo, t_fork *forks,
+// 							int curr_pos);
 void					philo_init(t_prog *prog);
 int						data_init(t_prog *prog, char **av);
 int						av_input(t_prog *prog, char **av);
@@ -142,7 +145,7 @@ void					increase_val(pthread_mutex_t *mutex, long *val);
 void					desync_philo(t_philo *philo);
 
 // philo status
-void					think(t_philo *philo, bool pre_sim);
+void 					think(t_philo *philo, bool pre_sim);
 void					eat(t_philo *philo);
 void					*one_philo(void *data);
 void					*dinner_sim(void *data);
@@ -155,5 +158,7 @@ void					eat_stat_init(t_prog *prog);
 // monitor
 void					*monitor_dinner(void *data);
 
-//printing
-void					gs_logs(t_philo *philo, int id, char *msg);
+//new_functions
+void					forks_down(t_philo *philo);
+void					gs_sleep(unsigned long time, t_philo *philo);
+
