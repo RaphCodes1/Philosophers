@@ -39,7 +39,7 @@ bool	philo_full_check(t_philo *philo)
 			check++;
 		mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
 	}
-	if (check == philo->program->num_of_philos)
+	if (check >= philo->program->num_of_philos)
 		return (true);
 	return (false);
 }
