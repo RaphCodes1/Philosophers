@@ -95,17 +95,17 @@ int	valid_numbers(char **av)
 int	av_input(t_prog *prog, char **av)
 {
 	prog->num_of_philos = ft_atol(av[1]);
-	prog->time_to_die = ft_atol(av[2]) * 1000;
-	prog->time_to_eat = ft_atol(av[3]) * 1000;
-	prog->time_to_sleep = ft_atol(av[4]) * 1000;
+	prog->time_to_die = ft_atol(av[2]); //* 1000;
+	prog->time_to_eat = ft_atol(av[3]); //* 1000;
+	prog->time_to_sleep = ft_atol(av[4]); //* 1000;
 	if (!valid_numbers(av))
 		return (0);
-	if (prog->time_to_die < 6e4 || prog->time_to_eat < 6e4
-		|| prog->time_to_sleep < 6e4)
-	{
-		printf(RED "use more than 60ms\n" RESET);
-		return (0);
-	}
+	// if (prog->time_to_die < 6e4 || prog->time_to_eat < 6e4
+	// 	|| prog->time_to_sleep < 6e4)
+	// {
+	// 	printf(RED "use more than 60ms\n" RESET);
+	// 	return (0);
+	// }
 	if (av[5])
 	{
 		prog->num_times_to_eat = ft_atol(av[5]);
