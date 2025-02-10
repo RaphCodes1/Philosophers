@@ -6,14 +6,15 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:46 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/10 19:50:43 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/10 20:19:00 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philosophers.h"
 
 void	eat(t_philo *philo)
-{
+{	
+	lock_forks(philo);
 	write_status(EATING, philo);
 	prec_usleep(philo->program->time_to_eat, philo->program);
 	mutex_handle(&philo->program->philo_full_mutex, LOCK);

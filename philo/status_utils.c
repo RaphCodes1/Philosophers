@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:12:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/10 19:51:01 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/10 20:18:55 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	which_philo_check(t_philo *philo)
 			if (philo->program->eat_stat[l_fork_pos] != philo->id
 				&& philo->program->eat_stat[r_fork_pos] != philo->id)
 			{
-				lock_forks(philo);
+				// lock_forks(philo);
 				return (1);
 			}
 			return (0);

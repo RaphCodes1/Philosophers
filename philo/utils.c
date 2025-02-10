@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:00:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/10 19:47:39 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/10 20:14:04 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	prec_usleep(long usec, t_prog *prog)
 	{
 		if (sim_finished(prog))
 			break ;
-		usleep(200);
+		usleep(500);
 	}
 }
 
