@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:12:02 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/05 17:23:33 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/10 19:51:01 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	eat_stat_init(t_prog *prog)
 	{
 		if (i == 0 || i == prog->num_of_philos - 1)
 			prog->eat_stat[i] = prog->num_of_philos;
-		else if (i % 2 == 0 && i + 2 < prog->num_of_philos)
+		else if (i % 2 == 0)
 			prog->eat_stat[i] = i + 2;
-		else if (i % 2 && i + 1 < prog->num_of_philos)
+		else if (i % 2)
 			prog->eat_stat[i] = i + 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:17 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/05 17:23:11 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/10 19:49:47 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ int	valid_numbers(char **av)
 int	av_input(t_prog *prog, char **av)
 {
 	prog->num_of_philos = ft_atol(av[1]);
-	prog->time_to_die = ft_atol(av[2]); //* 1000;
-	prog->time_to_eat = ft_atol(av[3]); //* 1000;
-	prog->time_to_sleep = ft_atol(av[4]); //* 1000;
+	prog->time_to_die = ft_atol(av[2]);
+	prog->time_to_eat = ft_atol(av[3]);
+	prog->time_to_sleep = ft_atol(av[4]);
 	if (!valid_numbers(av))
 		return (0);
 	if (prog->time_to_die < 60 || prog->time_to_eat < 60

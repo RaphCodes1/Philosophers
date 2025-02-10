@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:59:46 by rcreer            #+#    #+#             */
-/*   Updated: 2025/02/05 17:23:23 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/02/10 19:50:43 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	*dinner_sim(void *data)
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	increase_val(&philo->program->table_mutex,
 		&philo->program->threads_running_nbr);
-	// desync_philo(philo);
 	while (!sim_finished(philo->program))
 	{
 		mutex_handle(&philo->program->which_philo_eat_lock, LOCK);
