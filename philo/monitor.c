@@ -15,12 +15,13 @@
 bool	philo_dead(t_philo *philo)
 {
 	mutex_handle(&philo->program->table_mutex, LOCK);
-	if(get_time(MILLISECOND) - philo->last_meal_time > philo->program->time_to_die)
+	if (get_time(MILLISECOND) - philo->last_meal_time
+		> philo->program->time_to_die)
 	{
 		set_bool(&philo->program->dead_mutex, &philo->program->end_sim, true);
 		mutex_handle(&philo->program->write_lock, LOCK);
-		printf(RED "%-6ld%d died\n" RESET, get_time(MILLISECOND)
-			 - philo->program->start_sim, philo->id);
+		printf(RED "%-6ld%d died\n" RESET,
+			get_time(MILLISECOND) - philo->program->start_sim, philo->id);
 		mutex_handle(&philo->program->write_lock, UNLOCK);
 		mutex_handle(&philo->program->table_mutex, UNLOCK);
 		return (true);
@@ -39,8 +40,8 @@ bool	philo_full_check(t_philo *philo)
 	while (++i < philo->program->num_of_philos)
 	{
 		mutex_handle(&philo->program->philo_full_mutex, LOCK);
-		if (philo[i].meal_count >= philo->program->num_times_to_eat && 
-			philo->program->num_times_to_eat != -1)
+		if (philo[i].meal_count >= philo->program->num_times_to_eat
+			&& philo->program->num_times_to_eat != -1)
 			check++;
 		mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
 	}
@@ -71,7 +72,7 @@ void	*monitor_dinner(void *data)
 			set_bool(&prog->dead_mutex, &prog->end_sim, true);
 			return (NULL);
 		}
-		usleep(100);
+		usleep(200);
 	}
 	return (NULL);
 }

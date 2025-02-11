@@ -29,7 +29,7 @@ long	get_time(t_time t_code)
 	return (0);
 }
 
-int		prec_usleep(long usec, t_prog *prog)
+int	prec_usleep(long usec, t_prog *prog)
 {
 	long	start;
 
@@ -39,7 +39,6 @@ int		prec_usleep(long usec, t_prog *prog)
 		if (sim_finished(prog))
 			return (0);
 		usleep(500);
-
 	}
 	return (1);
 }
@@ -49,7 +48,7 @@ void	write_status(t_philo_stat status, t_philo *philo)
 	long	elapsed;
 
 	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
-	if(sim_finished(philo->program))
+	if (sim_finished(philo->program))
 		return ;
 	mutex_handle(&philo->program->write_lock, LOCK);
 	if (TAKE_R_FORK == status || TAKE_L_FORK == status

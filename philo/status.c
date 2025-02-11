@@ -12,17 +12,17 @@
 
 #include "Philosophers.h"
 
-int		eat(t_philo *philo)
-{	
-	if(sim_finished(philo->program))
+int	eat(t_philo *philo)
+{
+	if (sim_finished(philo->program))
 		return (0);
-	if(!sim_finished(philo->program))
+	if (!sim_finished(philo->program))
 	{
 		write_status(TAKE_L_FORK, philo);
 		write_status(TAKE_R_FORK, philo);
 		write_status(EATING, philo);
 	}
-	if(!prec_usleep(philo->program->time_to_eat, philo->program))
+	if (!prec_usleep(philo->program->time_to_eat, philo->program))
 		return (0);
 	down_forks(philo);
 	mutex_handle(&philo->program->table_mutex, LOCK);
@@ -32,22 +32,22 @@ int		eat(t_philo *philo)
 	return (1);
 }
 
-int		think(t_philo *philo)
+int	think(t_philo *philo)
 {
-	if(sim_finished(philo->program))
+	if (sim_finished(philo->program))
 		return (0);
-	if(!sim_finished(philo->program))
+	if (!sim_finished(philo->program))
 		write_status(THINKING, philo);
 	return (1);
 }
 
-int		sleeping(t_philo *philo)
-{	
-	if(sim_finished(philo->program))
+int	sleeping(t_philo *philo)
+{
+	if (sim_finished(philo->program))
 		return (0);
-	if(!sim_finished(philo->program))
+	if (!sim_finished(philo->program))
 		write_status(SLEEPING, philo);
-	if(!prec_usleep(philo->program->time_to_sleep, philo->program))
+	if (!prec_usleep(philo->program->time_to_sleep, philo->program))
 		return (0);
 	return (1);
 }
@@ -70,16 +70,16 @@ void	*dinner_sim(void *data)
 
 	philo = (t_philo *)data;
 	while (!sim_finished(philo->program))
-	{	
+	{
 		if (which_philo_check(philo))
-		{	
+		{
 			lock_forks(philo);
-			if(!eat(philo))
+			if (!eat(philo))
 			{
 				down_forks(philo);
 				return (NULL);
 			}
-			if(!sleeping(philo) || !think(philo))
+			if (!sleeping(philo) || !think(philo))
 				return (NULL);
 		}
 	}

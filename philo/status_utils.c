@@ -28,10 +28,10 @@ void	order_picked(t_philo *philo, int *first, int *second)
 
 int	which_philo_check(t_philo *philo)
 {
-	int f1;
-	int f2;
-	int f1_check;
-	int f2_check;
+	int	f1;
+	int	f2;
+	int	f1_check;
+	int	f2_check;
 
 	order_picked(philo, &f1, &f2);
 	mutex_handle(&philo->program->forks[f1], LOCK);
@@ -40,15 +40,16 @@ int	which_philo_check(t_philo *philo)
 	mutex_handle(&philo->program->forks[f2], LOCK);
 	f2_check = philo->program->eat_stat[f2];
 	mutex_handle(&philo->program->forks[f2], UNLOCK);
-	if(f1_check != philo->id && f2_check != philo->id)
+	if (f1_check != philo->id && f2_check != philo->id)
 		return (1);
 	return (0);
 }
 
 void	lock_forks(t_philo *philo)
 {
-	int f1;
-	int f2;
+	int	f1;
+	int	f2;
+
 	order_picked(philo, &f1, &f2);
 	mutex_handle(&philo->program->forks[f1], LOCK);
 	philo->program->eat_stat[f1] = 0;
@@ -57,9 +58,10 @@ void	lock_forks(t_philo *philo)
 }
 
 void	down_forks(t_philo *philo)
-{	
-	int f1;
+{
+	int	f1;
 	int	f2;
+
 	order_picked(philo, &f1, &f2);
 	philo->program->eat_stat[f1] = philo->id;
 	philo->program->eat_stat[f2] = philo->id;

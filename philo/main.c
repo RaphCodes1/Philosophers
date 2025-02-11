@@ -47,7 +47,7 @@ void	creation_thread(t_prog *prog)
 		thread_handle(&prog->philos[0].thread_id, one_philo, &prog->philos[0],
 			CREATE);
 	else
-	{	
+	{
 		while (++i < prog->num_of_philos)
 		{
 			thread_handle(&prog->philos[i].thread_id, dinner_sim,
