@@ -30,12 +30,6 @@
 #define WHITE "\033[37m"
 
 typedef struct s_prog	t_prog;
-typedef struct s_fork
-{
-	pthread_mutex_t		fork;
-	int					fork_id;
-
-}						t_fork;
 
 typedef struct s_philo
 {
@@ -44,8 +38,6 @@ typedef struct s_philo
 	long				meal_count;
 	long				last_meal_time;
 	bool				full;
-	// t_fork				*l_fork;
-	// t_fork				*r_fork;
 	int					l_fork;
 	int					r_fork;
 	t_prog				*program;
@@ -70,7 +62,6 @@ struct					s_prog
 	long				threads_running_nbr;
 	int					*eat_stat;
 	pthread_mutex_t		*forks_mutex;
-	// t_fork				*forks;
 	t_philo				*philos;
 };
 

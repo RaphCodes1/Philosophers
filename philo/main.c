@@ -56,12 +56,12 @@ void	creation_thread(t_prog *prog)
 	}
 	thread_handle(&prog->monitor, monitor_dinner, prog, CREATE);
 	prog->start_sim = gs_time();
-	// set_bool(&prog->table_mutex, &prog->threads_ready, true);
+	set_bool(&prog->table_mutex, &prog->threads_ready, true);
 	i = -1;
 	while (++i < prog->num_of_philos)
 		thread_handle(&prog->philos[i].thread_id, NULL, NULL, JOIN);
 	thread_handle(&prog->monitor, NULL, NULL, JOIN);
-	// set_bool(&prog->table_mutex, &prog->end_sim, true);
+	set_bool(&prog->table_mutex, &prog->end_sim, true);
 }
 
 int	malloc_check(t_prog *prog)
@@ -82,13 +82,6 @@ int	malloc_check(t_prog *prog)
 		free(prog->philos);
 		return (0);
 	}
-	// prog->forks = malloc(sizeof(t_fork) * prog->num_of_philos);
-	// if (!prog->forks)
-	// {
-	// 	free(prog->eat_stat);
-	// 	free(prog->philos);
-	// 	return (0);
-	// }
 	return (1);
 }
 
@@ -107,7 +100,6 @@ void	clean(t_prog *prog)
 	mutex_handle(&prog->philo_full_mutex, DESTROY);
 	free(prog->eat_stat);
 	free(prog->philos);
-	// free(prog->forks);
 }
 
 int	main(int ac, char **av)
