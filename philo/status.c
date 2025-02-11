@@ -57,7 +57,6 @@ void	*one_philo(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	write_status(TAKE_R_FORK, philo);
 	while (!sim_finished(philo->program))
 		usleep(200);

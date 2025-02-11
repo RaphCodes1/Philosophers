@@ -13,21 +13,20 @@ SRCS = main.c\
 	   monitor.c\
 	   sync.c\
 	   status.c\
-		libft/ft_atoi.c\
-		libft/ft_strlen.c\
-		libft/ft_putstr_fd.c\
-		libft/ft_atol.c\
+		helpers/ft_atoi.c\
+		helpers/ft_strlen.c\
+		helpers/ft_putstr_fd.c\
+		helpers/ft_atol.c\
 
 OBJS = $(SRCS:.c=.o)
 
 all:$(NAME)
 
-#$(CFLAGS)
 $(NAME): $(OBJS)
-	$(CC) $^ -o $@ -pthread
+	$(CC) $(CFLAGS) $^ -o $@ -pthread
 
 %.o:%.c
-	$(CC) -c $< -o $@ -pthread
+	$(CC) $(CFLAGS) -c $< -o $@ -pthread
 
 clean:
 	$(RM) $(OBJS)
@@ -37,4 +36,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

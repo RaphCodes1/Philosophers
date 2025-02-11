@@ -33,12 +33,6 @@
 // #define DEBUG_MODE 0
 
 typedef struct s_prog	t_prog;
-// typedef struct s_fork
-// {
-// 	pthread_mutex_t		fork;
-// 	int					fork_id;
-
-// }						t_fork;
 
 typedef struct s_philo
 {
@@ -50,7 +44,6 @@ typedef struct s_philo
 	int					l_fork;
 	int					r_fork;
 	t_prog				*program;
-	pthread_mutex_t		philo_mutex;
 }						t_philo;
 
 struct					s_prog
@@ -62,13 +55,11 @@ struct					s_prog
 	long				num_times_to_eat; // -1 if not in argv
 	long				start_sim;
 	bool				end_sim;
-	bool				threads_ready;
 	pthread_mutex_t		table_mutex;
 	pthread_mutex_t		write_lock;
 	pthread_mutex_t		dead_mutex;
 	pthread_mutex_t		philo_full_mutex;
 	pthread_t			monitor;
-	long				threads_running_nbr;
 	int					*eat_stat;
 	pthread_mutex_t		*forks;
 	t_philo				*philos;
@@ -110,7 +101,7 @@ unsigned long long		ft_atol(char *s);
 
 // init
 void					philo_init(t_prog *prog);
-int						data_init(t_prog *prog, char **av);
+int						data_init(t_prog *prog);
 int						av_input(t_prog *prog, char **av);
 
 // handlers and mallocs

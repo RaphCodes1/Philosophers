@@ -28,11 +28,10 @@ void	philo_init(t_prog *prog)
 		philo[i].program = prog;
 		philo[i].r_fork = (i + 1) % prog->num_of_philos;
 		philo[i].l_fork = i;
-		mutex_handle(&philo[i].philo_mutex, INIT);
 	}
 }
 
-int	data_init(t_prog *prog, char **av)
+int	data_init(t_prog *prog)
 {
 	int	i;
 
@@ -40,8 +39,6 @@ int	data_init(t_prog *prog, char **av)
 	if (!malloc_check(prog))
 		return (0);
 	prog->end_sim = false;
-	prog->threads_ready = false;
-	prog->threads_running_nbr = 0;
 	prog->start_sim = get_time(MILLISECOND);
 	mutex_handle(&prog->table_mutex, INIT);
 	mutex_handle(&prog->write_lock, INIT);

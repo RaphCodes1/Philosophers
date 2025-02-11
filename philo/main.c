@@ -88,7 +88,7 @@ void	clean(t_prog *prog)
 
 	i = -1;
 	while (++i < prog->num_of_philos)
-		mutex_handle(&prog->philos[i].philo_mutex, DESTROY);
+		mutex_handle(&prog->forks[i], DESTROY);
 	mutex_handle(&prog->write_lock, DESTROY);
 	mutex_handle(&prog->table_mutex, DESTROY);
 	mutex_handle(&prog->dead_mutex, DESTROY);
@@ -100,14 +100,13 @@ void	clean(t_prog *prog)
 
 int	main(int ac, char **av)
 {
-	t_philo	*philos;
 	t_prog	program;
 
 	if ((ac == 5 || ac == 6) && !check_valid_args(av))
 	{
 		if (!av_input(&program, av))
 			return (1);
-		if (!data_init(&program, av))
+		if (!data_init(&program))
 			return (1);
 		creation_thread(&program);
 		clean(&program);

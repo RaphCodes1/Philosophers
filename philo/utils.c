@@ -51,7 +51,7 @@ void	write_status(t_philo_stat status, t_philo *philo)
 	if (sim_finished(philo->program))
 		return ;
 	mutex_handle(&philo->program->write_lock, LOCK);
-	if (TAKE_R_FORK == status || TAKE_L_FORK == status
+	if ((TAKE_R_FORK == status || TAKE_L_FORK == status)
 		&& !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d has taken a fork\n", elapsed, philo->id);
 	else if (EATING == status && !sim_finished(philo->program))
