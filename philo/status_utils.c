@@ -12,70 +12,59 @@
 
 #include "Philosophers.h"
 
+void	order_picked(t_philo *philo, int *first, int *second)
+{
+	if (philo->l_fork < philo->r_fork)
+	{
+		*first = philo->l_fork;
+		*second = philo->r_fork;
+	}
+	else
+	{
+		*first = philo->r_fork;
+		*second = philo->l_fork;
+	}
+}
+
 int	which_philo_check(t_philo *philo)
 {
-	int	i;
-	int	l_fork_pos;
-	int	r_fork_pos;
+	int f1;
+	int f2;
+	int f1_check;
+	int f2_check;
 
-	i = -1;
-	r_fork_pos = philo->r_fork->fork_id;
-	l_fork_pos = philo->l_fork->fork_id;
-	while (++i <= philo->program->num_of_philos)
-	{
-		if (i == philo->id)
-		{
-			if (philo->program->eat_stat[l_fork_pos] != philo->id
-				&& philo->program->eat_stat[r_fork_pos] != philo->id)
-			{
-				lock_forks(philo);
-				return (1);
-			}
-			return (0);
-		}
-	}
+	order_picked(philo, &f1, &f2);
+	mutex_handle(&philo->program->forks[f1], LOCK);
+	f1_check = philo->program->eat_stat[f1];
+	mutex_handle(&philo->program->forks[f1], UNLOCK);
+	mutex_handle(&philo->program->forks[f2], LOCK);
+	f2_check = philo->program->eat_stat[f2];
+	mutex_handle(&philo->program->forks[f2], UNLOCK);
+	if(f1_check != philo->id && f2_check != philo->id)
+		return (1);
 	return (0);
 }
 
 void	lock_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		mutex_handle(&philo->r_fork->fork, LOCK);
-		write_status(TAKE_R_FORK, philo);
-		mutex_handle(&philo->l_fork->fork, LOCK);
-		write_status(TAKE_L_FORK, philo);
-	}
-	else if (philo->id % 2)
-	{
-		mutex_handle(&philo->l_fork->fork, LOCK);
-		write_status(TAKE_L_FORK, philo);
-		mutex_handle(&philo->r_fork->fork, LOCK);
-		write_status(TAKE_R_FORK, philo);
-	}
+	int f1;
+	int f2;
+	order_picked(philo, &f1, &f2);
+	mutex_handle(&philo->program->forks[f1], LOCK);
+	philo->program->eat_stat[f1] = 0;
+	mutex_handle(&philo->program->forks[f2], LOCK);
+	philo->program->eat_stat[f2] = 0;
 }
 
-void	set_eat_stat(t_philo *philo)
-{
-	int	i;
-
-	i = -1;
-	while (++i <= philo->program->num_of_philos)
-	{
-		if (i == philo->id)
-		{
-			if (i == philo->program->num_of_philos)
-			{
-				philo->program->eat_stat[i - 1] = philo->program->num_of_philos;
-				philo->program->eat_stat[0] = philo->program->num_of_philos;
-			}
-			else
-			{
-				philo->program->eat_stat[i - 1] = philo->id;
-				philo->program->eat_stat[i] = philo->id;
-			}
-		}
-	}
+void	down_forks(t_philo *philo)
+{	
+	int f1;
+	int	f2;
+	order_picked(philo, &f1, &f2);
+	philo->program->eat_stat[f1] = philo->id;
+	philo->program->eat_stat[f2] = philo->id;
+	mutex_handle(&philo->program->forks[f1], UNLOCK);
+	mutex_handle(&philo->program->forks[f2], UNLOCK);
 }
 
 void	eat_stat_init(t_prog *prog)

@@ -29,7 +29,7 @@ long	get_time(t_time t_code)
 	return (0);
 }
 
-void	prec_usleep(long usec, t_prog *prog)
+int		prec_usleep(long usec, t_prog *prog)
 {
 	long	start;
 
@@ -37,27 +37,11 @@ void	prec_usleep(long usec, t_prog *prog)
 	while (get_time(MILLISECOND) - start < usec)
 	{
 		if (sim_finished(prog))
-			break ;
+			return (0);
 		usleep(500);
-	}
-}
 
-void	write_stat_debug(t_philo_stat status, t_philo *philo, long elapsed)
-{
-	if ((TAKE_R_FORK == status && !sim_finished(philo->program)))
-		printf("%-6ld %d has taken R fork %d\n", elapsed, philo->id,
-			philo->r_fork->fork_id);
-	else if ((TAKE_L_FORK == status && !sim_finished(philo->program)))
-		printf("%-6ld %d has taken L fork %d\n", elapsed, philo->id,
-			philo->l_fork->fork_id);
-	else if (EATING == status && !sim_finished(philo->program))
-		printf(BLUE "%-6ld %d is eating\n" RESET, elapsed, philo->id);
-	else if (SLEEPING == status && !sim_finished(philo->program))
-		printf("%-6ld %d is sleeping\n", elapsed, philo->id);
-	else if (THINKING == status && !sim_finished(philo->program))
-		printf("%-6ld %d is thinking\n", elapsed, philo->id);
-	else if (DIED == status && !sim_finished(philo->program))
-		printf(RED "%-6ld %d has died\n" RESET, elapsed, philo->id);
+	}
+	return (1);
 }
 
 void	write_status(t_philo_stat status, t_philo *philo)
@@ -65,8 +49,10 @@ void	write_status(t_philo_stat status, t_philo *philo)
 	long	elapsed;
 
 	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
+	if(sim_finished(philo->program))
+		return ;
 	mutex_handle(&philo->program->write_lock, LOCK);
-	if ((TAKE_R_FORK == status || TAKE_L_FORK == status)
+	if (TAKE_R_FORK == status || TAKE_L_FORK == status
 		&& !sim_finished(philo->program))
 		printf(WHITE "%-6ld" RESET "%d has taken a fork\n", elapsed, philo->id);
 	else if (EATING == status && !sim_finished(philo->program))

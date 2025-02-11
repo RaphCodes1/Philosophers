@@ -48,5 +48,5 @@ bool	get_bool(pthread_mutex_t *mutex, bool *val)
 
 bool	sim_finished(t_prog *prog)
 {
-	return (get_bool(&prog->table_mutex, &prog->end_sim));
+	return (get_bool(&prog->dead_mutex, &prog->end_sim));
 }
