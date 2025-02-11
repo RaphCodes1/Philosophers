@@ -68,7 +68,6 @@ void	*dinner_sim(void *data)
 	set_val(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLISECOND));
 	increase_val(&philo->program->table_mutex,
 		&philo->program->threads_running_nbr);
-	// desync_philo(philo);
 	while (!sim_finished(philo->program))
 	{
 		mutex_handle(&philo->program->which_philo_eat_lock, LOCK);

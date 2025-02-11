@@ -19,11 +19,6 @@ void	assign_forks(t_philo *philo, t_fork *forks, int curr_pos)
 	philo_nbr = philo->program->num_of_philos;
 	philo[curr_pos].r_fork = &forks[(curr_pos + 1) % philo_nbr];
 	philo[curr_pos].l_fork = &forks[curr_pos];
-	if (philo->id % 2 == 0)
-	{
-		philo[curr_pos].r_fork = &forks[curr_pos];
-		philo[curr_pos].l_fork = &forks[(curr_pos + 1) % philo_nbr];
-	}
 }
 
 void	philo_init(t_prog *prog)
