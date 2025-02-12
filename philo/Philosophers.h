@@ -29,9 +29,6 @@
 #define CYAN "\033[36m"
 #define WHITE "\033[37m"
 
-// /*write function macro*/
-// #define DEBUG_MODE 0
-
 typedef struct s_prog	t_prog;
 
 typedef struct s_philo
@@ -52,7 +49,7 @@ struct					s_prog
 	long				time_to_die;
 	long				time_to_eat;
 	long				time_to_sleep;
-	long				num_times_to_eat; // -1 if not in argv
+	long				num_times_to_eat;
 	long				start_sim;
 	bool				end_sim;
 	pthread_mutex_t		table_mutex;
@@ -124,13 +121,7 @@ long					get_time(t_time t_code);
 int						prec_usleep(long usec, t_prog *prog);
 
 // write status
-void					write_status(t_philo_stat status, t_philo *philo);
-
-// sync
-void					wait_threads(t_philo *philo);
-bool					threads_run_check(pthread_mutex_t *mutex,
-							long philo_num, long *threads);
-void					increase_val(pthread_mutex_t *mutex, long *val);
+int						write_status(t_philo_stat status, t_philo *philo);
 
 // philo status
 int						think(t_philo *philo);

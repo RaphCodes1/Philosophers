@@ -43,13 +43,13 @@ int	prec_usleep(long usec, t_prog *prog)
 	return (1);
 }
 
-void	write_status(t_philo_stat status, t_philo *philo)
+int	write_status(t_philo_stat status, t_philo *philo)
 {
 	long	elapsed;
 
 	elapsed = get_time(MILLISECOND) - philo->program->start_sim;
 	if (sim_finished(philo->program))
-		return ;
+		return (0);
 	mutex_handle(&philo->program->write_lock, LOCK);
 	if ((TAKE_R_FORK == status || TAKE_L_FORK == status)
 		&& !sim_finished(philo->program))
@@ -63,4 +63,5 @@ void	write_status(t_philo_stat status, t_philo *philo)
 	else if (DIED == status && !sim_finished(philo->program))
 		printf(RED "%-6ld%d died\n" RESET, elapsed, philo->id);
 	mutex_handle(&philo->program->write_lock, UNLOCK);
+	return (1);
 }
