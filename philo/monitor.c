@@ -72,7 +72,7 @@ void	*monitor_dinner(void *data)
 			set_bool(&prog->dead_mutex, &prog->end_sim, true);
 			return (NULL);
 		}
-		usleep(200);
+		usleep(100);
 	}
 	return (NULL);
 }

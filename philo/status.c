@@ -16,15 +16,15 @@ int	eat(t_philo *philo)
 {
 	if (sim_finished(philo->program))
 		return (0);
-	if (!sim_finished(philo->program))
-	{
+	// if (!sim_finished(philo->program))
+	// {
 		if(!write_status(TAKE_L_FORK, philo))
 			return (0);
 		if(!write_status(TAKE_R_FORK, philo))
 			return (0);
 		if(!write_status(EATING, philo))
 			return (0);
-	}
+	// }
 	if (!prec_usleep(philo->program->time_to_eat, philo->program))
 		return (0);
 	down_forks(philo);
@@ -39,7 +39,7 @@ int	think(t_philo *philo)
 {
 	if (sim_finished(philo->program))
 		return (0);
-	if (!sim_finished(philo->program))
+	// if (!sim_finished(philo->program))
 		if(!write_status(THINKING, philo))
 			return (0);
 	return (1);
@@ -49,7 +49,7 @@ int	sleeping(t_philo *philo)
 {
 	if (sim_finished(philo->program))
 		return (0);
-	if (!sim_finished(philo->program))
+	// if (!sim_finished(philo->program))
 		if(!write_status(SLEEPING, philo))
 			return (0);
 	if (!prec_usleep(philo->program->time_to_sleep, philo->program))
