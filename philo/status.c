@@ -25,6 +25,8 @@ int	eat(t_philo *philo)
 		if(!write_status(EATING, philo))
 			return (0);
 	}
+	else
+		return (0);
 	if (!prec_usleep(philo->program->time_to_eat, philo->program))
 		return (0);
 	down_forks(philo);
@@ -42,9 +44,8 @@ int	think(t_philo *philo)
 {
 	if (sim_finished(philo->program))
 		return (0);
-	if (!sim_finished(philo->program))
-		if(!write_status(THINKING, philo))
-			return (0);
+	if(!write_status(THINKING, philo))
+		return (0);
 	return (1);
 }
 
@@ -52,9 +53,8 @@ int	sleeping(t_philo *philo)
 {
 	if (sim_finished(philo->program))
 		return (0);
-	if (!sim_finished(philo->program))
-		if(!write_status(SLEEPING, philo))
-			return (0);
+	if(!write_status(SLEEPING, philo))
+		return (0);
 	if (!prec_usleep(philo->program->time_to_sleep, philo->program))
 		return (0);
 	return (1);
@@ -86,7 +86,9 @@ void	*dinner_sim(void *data)
 				down_forks(philo);
 				return (NULL);
 			}
-			if (!sleeping(philo) || !think(philo))
+			if (!sleeping(philo))
+				return (NULL);
+			if(!think(philo))
 				return (NULL);
 		}
 	}
