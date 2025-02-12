@@ -28,10 +28,10 @@ int	eat(t_philo *philo)
 	if (!prec_usleep(philo->program->time_to_eat, philo->program))
 		return (0);
 	down_forks(philo);
-	mutex_handle(&philo->program->table_mutex, LOCK);
+	mutex_handle(&philo->program->philo_full_mutex, LOCK);
 	philo->meal_count++;
 	philo->last_meal_time = get_time(MILLISECOND);
-	mutex_handle(&philo->program->table_mutex, UNLOCK);
+	mutex_handle(&philo->program->philo_full_mutex, UNLOCK);
 	return (1);
 }
 
