@@ -21,7 +21,7 @@ bool	philo_dead(t_philo *philo)
 	{
 		set_bool(&philo->program->dead_mutex, &philo->program->end_sim, true);
 		mutex_handle(&philo->program->write_lock, LOCK);
-		printf(RED "%-6ld%d died\n" RESET,
+		printf(WHITE "%-6ld%d died\n" RESET,
 			get_time(MILLISECOND) - philo->program->start_sim, philo->id);
 		mutex_handle(&philo->program->write_lock, UNLOCK);
 		mutex_handle(&philo->program->table_mutex, UNLOCK);
