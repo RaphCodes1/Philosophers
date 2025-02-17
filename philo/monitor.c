@@ -16,8 +16,8 @@ bool	philo_dead(t_philo *philo)
 {
 	mutex_handle(&philo->program->table_mutex, LOCK);
 	if (get_time(MILLISECOND)
-		- get_val(&philo->program->philo_full_mutex,&philo->last_meal_time)
-			> philo->program->time_to_die)
+		- get_val(&philo->program->philo_full_mutex, &philo->last_meal_time)
+		> philo->program->time_to_die)
 	{
 		set_bool(&philo->program->dead_mutex, &philo->program->end_sim, true);
 		mutex_handle(&philo->program->write_lock, LOCK);
@@ -63,9 +63,7 @@ void	*monitor_dinner(void *data)
 		while (i < prog->num_of_philos)
 		{
 			if (philo_dead(&prog->philos[i]))
-			{
 				return (NULL);
-			}
 			i++;
 		}
 		if (philo_full_check(prog->philos))

@@ -1,7 +1,7 @@
 NAME = philo
 
-CC = cc -g3
-CFLAGS = -Wall -Wextra -Werror
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -pthread
 RM = rm -f
 
 SRCS = main.c\
@@ -23,10 +23,10 @@ OBJS = $(SRCS:.c=.o)
 all:$(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -pthread
+	$(CC) $(CFLAGS) $^ -o $@ 
 
 %.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@ -pthread
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
